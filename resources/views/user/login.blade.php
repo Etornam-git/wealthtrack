@@ -19,8 +19,8 @@
       <p class="mt-2 text-center text-sm text-gray-600">
         Sign in to your account
       </p>
-      <form method="POST" action="#" class="mt-8 space-y-6">
-        <!-- @csrf -->
+      <form method="POST" action="/user" class="mt-8 space-y-6">
+        @csrf 
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
             <label for="email" class="sr-only">Email address</label>
@@ -53,7 +53,7 @@
             Forgot your password?
           </a>
           <span class="mx-2 text-gray-400">|</span>
-          <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">
+          <a href="/user/register" class="font-medium text-indigo-600 hover:text-indigo-500">
             Create an account
           </a>
         </div>
