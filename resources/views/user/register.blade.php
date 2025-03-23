@@ -19,15 +19,21 @@
       <p class="mt-2 text-center text-sm text-gray-600">
         Sign up to get started with WealthTrack
       </p>
-      <form method="POST" action="#" class="mt-8 space-y-6 ">
-        {{-- @csrf --}}
+      <form method="POST" action="/user" class="mt-8 space-y-6 ">
+        @csrf
         <div class="rounded-md shadow-sm -space-y-px py-15">
           <!-- Name Field -->
           <div>
-            <label for="name" class="sr-only">Name</label>
-            <input id="name" name="name" type="text" required autofocus 
+            <label for="first_name" class="sr-only">FirstName</label>
+            <input id="first_name" name="first_name" type="text" required autofocus 
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Full Name">
+              placeholder="Jon">
+          </div>
+          <div>
+            <label for="first_name" class="sr-only">LastName</label>
+            <input id="name" name="last_name" type="text" required autofocus 
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
+              placeholder="Doe">
           </div>
           <!-- Email Field -->
           <div class="mt-4">
@@ -44,12 +50,12 @@
               placeholder="Password">
           </div>
           <!-- Confirm Password Field -->
-          <div class="mt-4">
+          {{-- <div class="mt-4">
             <label for="password_confirmation" class="sr-only">Confirm Password</label>
             <input id="password_confirmation" name="password_confirmation" type="password" required 
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
               placeholder="Confirm Password">
-          </div>
+          </div> --}}
         </div>
 
         <div>
@@ -61,7 +67,7 @@
       </form>
       <p class="mt-6 text-center text-sm text-gray-600">
         Already have an account? 
-        <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+        <a href="/user/login" class="font-medium text-indigo-600 hover:text-indigo-500">
           Sign in
         </a>
       </p>
