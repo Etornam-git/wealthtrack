@@ -12,6 +12,12 @@ Route::get('/user/register', function () {
 });
 
 Route::post('/user', function () {
+    request()->validate([
+        'first_name' => ['required', 'string', 'max:255'],
+        'last_name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string']
+    ]);
     User::create([
         'first_name' => request('first_name'),
         'last_name' => request('last_name'),
