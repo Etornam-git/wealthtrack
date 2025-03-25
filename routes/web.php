@@ -11,10 +11,11 @@ Route::get('/user/register', function () {
     return view('user.register');
 });
 
+//create
 Route::post('/user', function () {
     request()->validate([
-        'first_name' => ['required', 'string', 'max:255'],
-        'last_name' => ['required', 'string', 'max:255'],
+        'first_name' => ['required', 'string', 'min:3','max:255'],
+        'last_name' => ['required', 'string', 'min:3','max:255'],
         'email' => ['required', 'email'],
         'password' => ['required', 'string']
     ]);
@@ -29,6 +30,28 @@ Route::post('/user', function () {
     return redirect('users');
 });
 
+Route::patch('user/{id}/', function ($id){
+    request()->validate([
+        'first_name' => ['required', 'string', 'min:3','max:255'],
+        'last_name' => ['required', 'string', 'min:3','max:255'],
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string']
+    ]);
+    $user = User::find(request('id'));
+
+    $user->update([
+        'first_name' => request('first_name'),
+        'last_name' => request('last_name'),
+        'email' => request('email'),
+        'password' => request('password'),
+        'email_verified_at' => 'null'
+    ]);
+});
+
+// delete
+Route::delete('user/{id}', function ($id){
+    User::findOrFail($id)->delete();
+});
 
 Route::get('/', function () {
     return view('home');
