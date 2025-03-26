@@ -10,7 +10,7 @@
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th>Action</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -25,19 +25,20 @@
                                 Edit
                             </a>
                         </button>
-                        <button form="deleteForm">
-                            <a href="/user/delete/{{ $user->id }}" class="text-red-600 hover:text-red-900">
-                                Delete
-                            </a>
-                        </button>
+                        <a href="/user/{{ $user->id }}">
+                            <button type="submit" form="deleteForm">Delete</button>
+                        </a>
+                        
+                        
                     </td>
                 </tr>
+                <form method="POST" action="/user/{{ $user->id }}" id="deleteForm" class="hidden">
+                    @csrf
+                    @method('DELETE')
+                </form>
+                
             @endforeach
         </tbody>
     </table>
-    <form method="POST" action="" id="deleteForm">
-        @csrf
-        @method('DELETE')
-    </form>
-
+    
 </x-layout>
