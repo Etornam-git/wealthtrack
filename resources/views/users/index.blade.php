@@ -3,6 +3,10 @@
       All users
     </x-slot:pagename>
 
+    <div class="flex justify-between mb-4">
+        <h1 class="text-2xl font-bold">All Users</h1>
+        <a href="/users/create" class="bg-blue-500 text-white px-4 py-2 rounded">Create User</a>
+    </div>
     <table class="min-w-full divide-y divide-gray-200">
         <caption class="text-lg font-medium text-gray-900 mb-4">All users</caption>
         <thead class="bg-gray-50">
@@ -21,7 +25,7 @@
                     <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <button>
-                            <a href="/user/edit/{{ $user->id }}" class="text-indigo-600 hover:text-indigo-900">
+                            <a href="/users/{{ $user->id }}/edit" class="text-indigo-600 hover:text-indigo-900">
                                 Edit
                             </a>
                         </button>
@@ -32,7 +36,7 @@
                         
                     </td>
                 </tr>
-                <form method="POST" action="/user/{{ $user->id }}" id="deleteForm" class="hidden">
+                <form method="POST" action="/users/{{ $user->id }}" id="deleteForm" class="hidden">
                     @csrf
                     @method('DELETE')
                 </form>

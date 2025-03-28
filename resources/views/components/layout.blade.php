@@ -30,7 +30,7 @@
         <x-nav-link href="/users" :active="request()->is('users')">Users</x-nav-link>
       </div>
       <div class="hidden lg:flex">
-        <a href="/user/login" class="text-sm font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+        <a href="/users/login" class="text-sm font-semibold text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div class="lg:hidden">
         <button type="button" class="text-gray-700">

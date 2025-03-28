@@ -2,81 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 
 // login
 Route::get('/user/login', function () {
-    return view('user.login');
+    return view('users.login');
 });
 
 // add new
-Route::get('/user/register', function () {
-    return view('user.register');
-});
+// Route::view('/user/register', 'user.register');
 
-// show
-Route::get('/users', function () {
-    $user = User::all();
-    return view('users', ['users'=>$user]);
-});
 
-//create
-Route::post('/user', function () {
-    request()->validate([
-        'first_name' => ['required', 'string', 'min:3','max:255'],
-        'last_name' => ['required', 'string', 'min:3','max:255'],
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string']
-    ]);
-    User::create([
-        'first_name' => request('first_name'),
-        'last_name' => request('last_name'),
-        'email' => request('email'),
-        'password' => request('password'),
-        'email_verified_at' => 'null'
+Route::resource('users', UserController::class)->except(['show']);
 
-    ]);
-    return redirect('users');
-});
+// Route::get('/users', [UserController::class, 'index']);
+// Route::post('/user/register', [UserController::class, 'create']);
+// Route::get('user/edit/{user}',  [UserController::class, 'edit']);
+// Route::patch('user/{user}/', [UserController::class, 'update'] );
+// Route::delete('user/{user}',  [UserController::class, 'destroy']);
 
-// edit
-Route::get('user/edit/{id}', function ($id){
-    $user = User::find($id);
-    return view('user.edit', ['user'=>$user]);
-});
 
-// update
-Route::patch('user/{id}/', function ($id){
-    request()->validate([
-        'first_name' => ['required', 'string', 'min:3','max:255'],
-        'last_name' => ['required', 'string', 'min:3','max:255'],
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string']
-    ]);
-    $user = User::findOrFail($id);
-
-    $user->update([
-        'first_name' => request('first_name'),
-        'last_name' => request('last_name'),
-        'email' => request('email'),
-        'password' => request('password'),
-        'email_verified_at' => 'null'
-    ]);
-    
-    return redirect('users');   
-});
-
-// delete
-Route::delete('user/{id}', function ($id){
-    User::findOrFail($id)->delete();
-    return redirect('users');
-});
-
-// The GET method is not supported for route user/d/5. Supported methods: DELETE.
-
-Route::get('/', function () {
-    return view('home');
-});
-
+Route::view('/', 'home');
 Route::get('/savings', function () {
     return view('savings');
 });
