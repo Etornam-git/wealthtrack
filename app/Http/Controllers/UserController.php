@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.register');
+        return view('auth.register');
     }
 
     /**
@@ -51,10 +51,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(User $user)
-    // {
-    //     return view('users', ['users'=>$user]);
-    // }
+    public function show(User $user)
+    {
+        return view('users', ['users'=>$user]);
+    }
 
     /**
      * Show the form for editing the specified resource.

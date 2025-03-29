@@ -19,7 +19,7 @@
       <p class="mt-2 text-center text-sm text-gray-600">
         Sign up to get started with WealthTrack
       </p>
-      <form method="POST" action="/users" class="mt-8 space-y-6 ">
+      <form method="POST" action="/register" class="mt-8 space-y-6 ">
         @csrf
         <div class="rounded-md shadow-sm -space-y-px py-15">
           <!-- Name Field -->

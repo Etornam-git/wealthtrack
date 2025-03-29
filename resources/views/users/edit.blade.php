@@ -17,7 +17,7 @@
     <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
       <h2 class="text-3xl font-extrabold text-gray-900 text-center">Edit Info</h2>
      
-      <form method="POST" action="/users/{{ $user->id }}" class="mt-8 space-y-6 ">
+      <form method="POST" action="/user/{{ $user->id }}" class="mt-8 space-y-6 ">
         @csrf
         @method('PATCH')
         <div class="rounded-md shadow-sm -space-y-px py-15">
