@@ -44,7 +44,7 @@ class SessionController extends Controller
         request()->session()->regenerate();
         Auth::login();
 
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
     /**
@@ -74,7 +74,7 @@ class SessionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
         Auth::logout();
         return redirect('/');

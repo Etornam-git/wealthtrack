@@ -15,14 +15,12 @@ Route::resource('users', UserController::class);
 
 Route::get('/login', [SessionController::class, 'create']);
 Route::post('/login', [SessionController::class, 'store']);
-Route::get('/logout', [SessionController::class, 'destroy']);
+Route::post('/logout', [SessionController::class, 'destroy']);
 
 Route::get('/register', [RegisterUserController::class, 'create']);
 Route::post('/register', [RegisterUserController::class, 'store']);
 
-
 Route::get('/dashboard', [UserController::class, 'index']);
-
 
 Route::view('/', 'home');
 Route::view('/savings', 'savings');

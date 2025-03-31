@@ -28,16 +28,34 @@
   <header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50 animate-fadeInUp">
     <nav class="container mx-auto flex items-center justify-between p-6">
       <a href="/" class="flex items-center transition transform hover:scale-105">
-        <img class="h-10 w-10" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="WealthTrack">
-        <span class="ml-3 text-2xl font-bold text-gray-900 dark:text-gray-100">WealthTrack</span>
+        <svg class="size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+          <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+        </svg>
+        <span class="ml-3 text-2xl font-bold text-gray-900 dark:text-gray-100">WealthTrack - {{ Auth::user()->first_name }}</span>
       </a>
       @auth
         <ul class="hidden lg:flex space-x-8">
-          <li><x-nav-link href="/invest" :active="request()->is('dashboard')">Dashboard</x-nav-link></li>
-          <li><x-nav-link href="/savings" :active="request()->is('savings')">Savings</x-nav-link></li>
-          <li><x-nav-link href="/budgets" :active="request()->is('budgets')">Budgets</x-nav-link></li>
-          <li><x-nav-link href="/invest" :active="request()->is('invest')">Invest</x-nav-link></li>
-          <li><x-nav-link href="/logout" class="'text-gray-500 hover:bg-blue-100 hover:text-blue-600 font-medium px-4 py-2 rounded-lg transition duration-200'">Logout</x-nav-link></li>
+          <li>
+            <x-nav-link href="/dashboard" :active="request()->is('dashboard')">Dashboard</x-nav-link>
+          </li>
+          <li>
+            <x-nav-link href="/savings" :active="request()->is('savings')">Savings</x-nav-link>
+          </li>
+          <li>
+            <x-nav-link href="/budgets" :active="request()->is('budgets')">Budgets</x-nav-link>
+          </li>
+          <li>
+            <x-nav-link href="/invest" :active="request()->is('invest')">Invest</x-nav-link>
+          </li>
+          
+          <li>
+            <form action="/logout" method="POST" id="logout">
+              @csrf
+              <button type="submit" form="logout">Logout</button>
+            </form>
+          </li>
+          
+          
         </ul>
       @endauth
       
@@ -47,8 +65,8 @@
                 <x-nav-link href="/" :active="request()->is('home')">Home</x-nav-link>
                 <x-nav-link href="/trends" :active="request()->is('trends')">Finance Trends</x-nav-link>
               </div>
-          <x-nav-link href="/login" class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition">Login</x-nav-link>
-          <x-nav-link href="/register" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">Register</x-nav-link>
+          <x-nav-link href="/login" >Login</x-nav-link>
+          <x-nav-link href="/register">Register</x-nav-link>
         </div>
       @endguest
       <div class="lg:hidden">
