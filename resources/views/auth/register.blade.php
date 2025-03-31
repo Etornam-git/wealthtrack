@@ -24,60 +24,40 @@
         <div class="rounded-md shadow-sm -space-y-px py-15">
           <!-- Name Field -->
           <div>
-            <label for="first_name" class="sr-only">FirstName</label>
-            <input id="first_name" name="first_name" type="text" required autofocus 
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Jon">
+            <x-form-label for="first_name">FirstName</x-form-label>
+            <x-form-input id="first_name" name="first_name" type="text" required autofocus  placeholder="Jon" />
           </div>
-          <p class="mt-2 text-red-600 text-sm">
-            @error('first_name')
-              {{ $message }}
-            @enderror
-          </p>
+          <x-form-error name="first_name" />
           <div>
-            <label for="first_name" class="sr-only">LastName</label>
-            <input id="name" name="last_name" type="text" required autofocus 
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Doe">
+            <x-form-label for="first_name" >LastName</x-form-label>
+            <x-form-input id="name" name="last_name" type="text" required autofocus  placeholder="Doe" />
           </div>
-            <p class="mt-2 text-red-600 text-sm">
-            @error('last_name')
-              {{ $message }}
-            @enderror
-            </p>
+           <x-form-error name="last_name" />
+
           <!-- Email Field -->
           <div class="mt-4">
-            <label for="email" class="sr-only">Email address</label>
-            <input id="email" name="email" type="email"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Email address">
+            <x-form-label for="email">Email address</x-form-label>
+            <x-form-input id="email" name="email" type="email"  placeholder="Email address"  />
           </div>
-            <p class="mt-2 text-red-600 text-sm">
-            @error('email')
-              {{ $message }}
-            @enderror
-            </p>
+           <x-form-error name="email" />
+
           <!-- Password Field -->
           <div class="mt-4">
-            <label for="password" class="sr-only">Password</label>
-            <input id="password" name="password" type="password" required 
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Password">
+            <x-form-label for="password" >Password</x-form-label>
+            <x-form-input id="password" name="password" type="password" required  placeholder="Password" />
           </div>
-          <p class="mt-2 text-red-600 text-sm">
-            @error('password')
-            {{ $message }}
-          @enderror
-          </p>
-          <!-- Confirm Password Field -->
-          {{-- <div class="mt-4">
-            <label for="password_confirmation" class="sr-only">Confirm Password</label>
-            <input id="password_confirmation" name="password_confirmation" type="password" required 
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Confirm Password">
-          </div> --}}
-        </div>
+          <x-form-error name="password" />
 
+          <!-- Confirm Password Field -->
+          <div class="mt-4">
+            <x-form-label for="password_confirmation" class="sr-only">Confirm Password</x-form-label>
+            <x-form-input id="password_confirmation" 
+              name="password_confirmation" type="password" 
+              required placeholder="Confirm Password" />
+          </div>
+        </div>
+        <x-form-error name="password_confirmation" />
+        
         <div>
           <button type="submit"
             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-sm font-medium">
@@ -87,7 +67,7 @@
       </form>
       <p class="mt-6 text-center text-sm text-gray-600">
         Already have an account? 
-        <a href="/user/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+        <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
           Sign in
         </a>
       </p>

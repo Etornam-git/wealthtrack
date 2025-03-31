@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
-class UserController extends Controller
+use Illuminate\Support\Facades\Auth;
+class RegisterUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user)
+    public function index()
     {
-        return view('dashboard', ['user' => $user]);
+
+        // return view('auth.regsiter');
         
     }
 
@@ -27,24 +28,24 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(User $user)
+    public function store()
     {
-        request()->validate([
+        $new = request()->validate([
             'first_name' => ['required', 'string', 'min:3','max:255'],
             'last_name' => ['required', 'string', 'min:3','max:255'],
             'email' => ['required', 'email'],
             'password' => ['required', 'string']
         ]);
         
-        $user->create([
-            'first_name' => request('first_name'),
-            'last_name' => request('last_name'),
-            'email' => request('email'),
-            'password' => request('password'),
-            'email_verified_at' => 'null'
-    
-        ]);
-        return redirect('users');
+        $user = User::create($new);
+
+        
+        
+        Auth::login($user);
+
+        return redirect('/dashboard');
+
+       
     }
 
     /**
@@ -68,22 +69,16 @@ class UserController extends Controller
      */
     public function update(User $user)
     {
-        // request()->validate([
-        //     'first_name' => ['required', 'string', 'min:3','max:255'],
-        //     'last_name' => ['required', 'string', 'min:3','max:255'],
-        //     'email' => ['required', 'email'],
-        //     'password' => ['required', 'string']
-        // ]);
+        $update = request()->validate([
+            'first_name' => ['required', 'string', 'min:3','max:255'],
+            'last_name' => ['required', 'string', 'min:3','max:255'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string']
+        ]);
     
-        // $user->update([
-        //     'first_name' => request('first_name'),
-        //     'last_name' => request('last_name'),
-        //     'email' => request('email'),
-        //     'password' => request('password'),
-        //     'email_verified_at' => 'null'
-        // ]);
+        $user->update($update);
         
-        // return redirect('users');   
+        return redirect('users');   
     }
 
     /**

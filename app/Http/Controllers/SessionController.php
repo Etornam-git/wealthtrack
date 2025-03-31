@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
 {
@@ -11,7 +13,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -19,7 +21,7 @@ class SessionController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth.login');
     }
 
     /**
@@ -27,7 +29,22 @@ class SessionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = request()->validate([
+            'email'=> 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        if(! Auth::attempt($validated)){
+            throw ValidationException::withMessages([
+            'email' =>"invalid email",
+            'password' =>"invalid password"
+            ]);
+        };
+
+        request()->session()->regenerate();
+        Auth::login();
+
+        return redirect('/');
     }
 
     /**
@@ -59,6 +76,7 @@ class SessionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Auth::logout();
+        return redirect('/');
     }
 }
