@@ -73,8 +73,16 @@
       </div>
 
       <!-- Recent Transactions Table -->
-      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp delay-800">
-        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Recent Transactions</h3>
+      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp delay-800 ">
+        <div class="space-y-4">
+            <h3 class=" font-bold text-gray-800 dark:text-gray-100 mb-4">Recent Transactions</h3>
+          
+            <div class="flex justify-end">
+              <button class="px-4 py-2 rounded text-gray-800 dark:text-gray-100 hover:bg-indigo-600 hover:text-white transition">
+              <a href="/transactions">All transactions</a>
+              </button>
+            </div>
+        </div>
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
             <thead>
@@ -85,21 +93,15 @@
               </tr>
             </thead>
             <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">2025-03-29</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">Grocery Shopping</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">-$120.50</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">2025-03-28</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">Utility Bill</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">-$75.00</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">2025-03-27</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">Dining Out</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">-$45.25</td>
-              </tr>
+              @foreach ($transactions as $transaction)
+                <tr class="hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->date }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">${{ number_format($transaction->amount, 2) }}</td>
+                </tr>
+                
+              @endforeach
+            
             </tbody>
           </table>
         </div>

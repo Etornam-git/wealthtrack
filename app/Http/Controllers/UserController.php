@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,11 +14,11 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-        return view('dashboard', [
-            'users' => $user->all()
-        ]);
-        
-        
+        $user = Auth::user();
+        $transactions = $user->transactions;
+        $transactions = Transaction::where('user_id', $user->id)->get();
+        return view('dashboard', compact('user','transactions'));
+     
     }
 
     /**
