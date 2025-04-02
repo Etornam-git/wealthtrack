@@ -21,7 +21,7 @@ class TransactionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(User $user)
+    public function create()
     {
     
         $user = Auth::user();
@@ -34,6 +34,7 @@ class TransactionController extends Controller
      */
     public function store()
     {
+
         $user = Auth::user();
         $Valtransactions = request()->validate([
             'amount' => ['required','integer'],
@@ -42,18 +43,12 @@ class TransactionController extends Controller
             
         ]);
        
-        // dd($Valtransactions);
-        // if(! Auth::attempt($Valtransactions)){
-        //     throw ValidationException::withMessages([
-        //         'amount'=>"chaale no good o"
-        //     ]);
-        //     return back()->withErrors(['error'=>'Error processing transaction']);
-        // };
-        $transactions = $user->transactions()->create($Valtransactions);
+        
+        $user->transactions()->create($Valtransactions);
        
         // dd($transactions);
 
-        return view('transactions.index',['transactions' => $transactions, 'user'=>$user]);
+        return redirect('transactions.index')->with('success', ('Transaction created successfully.'));
     }
 
     /**
