@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-6 py-10">
       <!-- Transactions Table -->
       <div class="mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">All Transactions</h2>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">All Transactions for {{ $user->id }}</h2>
         <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-700">
@@ -23,7 +23,7 @@
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">${{ number_format($transaction->amount, 2) }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ ucfirst($transaction->transaction_type) }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
-                  {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $transaction->created_at->format('Y-m-d') }}</td> --}}
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $transaction->created_at->format('Y-m-d') }}</td>
                 </tr>
               @endforeach
             </tbody>

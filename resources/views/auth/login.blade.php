@@ -32,16 +32,16 @@
         @csrf 
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input id="email" name="email" type="email" required autofocus 
-              class="appearance-none rounded-t-md relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-              placeholder="Email address">
+            <x-form-label for="email" >Email address</x-form-label>
+            <x-form-input id="email" name="email" type="email" required autofocus 
+              placeholder="Email address" />
+            <x-form-error name="email" :value="old('email')" />
           </div>
           <div class="mt-4">
-            <label for="password" class="sr-only">Password</label>
-            <input id="password" name="password" type="password" required 
-              class="appearance-none rounded-b-md relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-              placeholder="Password">
+            <x-form-label for="password" >Password</x-form-label>
+            <x-form-input id="password" name="password" type="password" required 
+              placeholder="Password" />
+            <x-form-error name="password" />
           </div>
         </div>
 

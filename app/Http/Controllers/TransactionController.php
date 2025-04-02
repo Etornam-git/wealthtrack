@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class TransactionController extends Controller
 {
@@ -14,8 +15,7 @@ class TransactionController extends Controller
      */
     public function index(User $user)
     {
-        $transactions = Transaction::where('user_id', $user->id)->get();
-        return view('dashboard', ['transactions' => $transactions]);
+        
     }
    
     /**
@@ -23,28 +23,37 @@ class TransactionController extends Controller
      */
     public function create(User $user)
     {
-        
+    
         $user = Auth::user();
         $transactions = $user->transactions;
-        $transactions = Transaction::where('user_id', $user->id)->get();
         return view('transactions.index', compact('user', 'transactions'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Transaction $transaction)
+    public function store()
     {
-        $transaction = request()->validate([
+        $user = Auth::user();
+        $Valtransactions = request()->validate([
             'amount' => ['required','integer'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
             'description' => ['required'],
             
         ]);
-        
-        $user = Transaction::create($transaction);
+       
+        // dd($Valtransactions);
+        // if(! Auth::attempt($Valtransactions)){
+        //     throw ValidationException::withMessages([
+        //         'amount'=>"chaale no good o"
+        //     ]);
+        //     return back()->withErrors(['error'=>'Error processing transaction']);
+        // };
+        $transactions = $user->transactions()->create($Valtransactions);
+       
+        // dd($transactions);
 
-        return redirect('transaction.index')->withMessage('Transaction successful');
+        return view('transactions.index',['transactions' => $transactions, 'user'=>$user]);
     }
 
     /**

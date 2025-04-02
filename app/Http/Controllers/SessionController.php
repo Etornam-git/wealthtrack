@@ -27,11 +27,11 @@ class SessionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
         $validated = request()->validate([
             'email'=> 'required',
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required',
         ]);
 
         if(! Auth::attempt($validated)){
@@ -42,7 +42,7 @@ class SessionController extends Controller
         };
 
         request()->session()->regenerate();
-        Auth::login();
+        Auth::login(Auth::user());
 
         return redirect('/dashboard');
     }
