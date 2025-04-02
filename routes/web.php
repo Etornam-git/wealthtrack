@@ -7,6 +7,7 @@ use App\Http\Controllers\SessionController;
 use Barryvdh\Debugbar\DataCollector\SessionCollector;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserAccountController;
 
 // add new
 
@@ -25,6 +26,14 @@ Route::get('/dashboard', [UserController::class, 'index']);
 
 Route::get('/transactions', [TransactionController::class, 'create']);
 Route::post('/transactions', [TransactionController::class, 'store']);
+
+Route::get('/accounts/{account)', [UserAccountController::class, 'show']);
+Route::get('/accounts', [UserAccountController::class, 'create']);
+Route::post('/accounts', [UserAccountController::class, 'store']);
+Route::patch('/accounts/{account)', [UserAccountController::class, 'update']);
+Route::delete('/accounts/{account)', [UserAccountController::class, 'destroy']);
+
+
 
 
 Route::view('/', 'home');

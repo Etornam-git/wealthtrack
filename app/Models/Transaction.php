@@ -10,14 +10,14 @@ class Transaction extends Model
     /** @use HasFactory<\Database\Factories\TransactionFactory> */
     use HasFactory;
 
-    // protected $fillable = [
-    //     'user_id',
-    //     'amount',
-    //     'transaction_type',
-    //     'description',
-    // ];
+    protected $fillable = [
+        'user_id',
+        'amount',
+        'transaction_type',
+        'description',
+    ];
 
-    protected $guarded = [];
+    // protected $guarded = [];
 
     protected $casts = [
         'amount' => 'integer',
