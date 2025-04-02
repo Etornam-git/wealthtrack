@@ -1,0 +1,2 @@
+Call to a member function delete() on null
+The GET method is not supported for route user/d/5. Supported methods: DELETE.

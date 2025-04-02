@@ -2,53 +2,38 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SessionController;
+use Barryvdh\Debugbar\DataCollector\SessionCollector;
+use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\TransactionController;
 
-Route::get('/user/login', function () {
-    return view('user.login');
-});
-
-Route::get('/user/register', function () {
-    return view('user.register');
-});
-
-Route::post('/user', function () {
-    User::create([
-        'first_name' => request('first_name'),
-        'last_name' => request('last_name'),
-        'email' => request('email'),
-        'password' => request('password'),
-        'email_verified_at' => 'null'
-
-    ]);
-    return redirect('users');
-});
+// add new
 
 
-Route::get('/', function () {
-    return view('home');
-});
 
-Route::get('/savings', function () {
-    return view('savings');
-});
+Route::resource('users', UserController::class);
 
-Route::get('/budgets', function () {
-    return view('budgets');
-});
+Route::get('/login', [SessionController::class, 'create']);
+Route::post('/login', [SessionController::class, 'store']);
+Route::post('/logout', [SessionController::class, 'destroy']);
 
-Route::get('/trends', function () {
-    return view('trends');
-});
+Route::get('/register', [RegisterUserController::class, 'create']);
+Route::post('/register', [RegisterUserController::class, 'store']);
 
-Route::get('/features', function () {
-    return view('features');
-});
+Route::get('/dashboard', [UserController::class, 'index']);
 
-Route::get('/invest', function () {
-    return view('invest');
-});
+Route::get('/transactions', [TransactionController::class, 'create']);
+Route::post('/transactions', [TransactionController::class, 'store']);
 
-Route::get('/users', function () {
-    $users = User::all();
-    return view('users', ['users'=>$users]);
-});
+
+Route::view('/', 'home');
+Route::view('/savings', 'savings');
+Route::view('/budgets', 'budgets');
+Route::view('/trends', 'trends');
+Route::view('/features', 'features');
+Route::view('/invest', 'invest');
+
+
+// ADMIN PASSWORD : admin@123
+
