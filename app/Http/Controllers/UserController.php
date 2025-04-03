@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -12,12 +13,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(User $user)
+    public function index(Account $account)
     {
-        $user = Auth::user();
-        $transactions = $user->transactions;
-        $transactions = Transaction::where('user_id', $user->id)->get();
-        return view('dashboard', compact('user','transactions'));
+        $accounts = Auth::user()->accounts();
+        $transactions = $account->transactions;
+        $transactions = Transaction::where('account_id', $account->id)->get();
+        return view('dashboard', compact('accounts','transactions'));
      
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -24,9 +25,9 @@ class TransactionController extends Controller
     public function create()
     {
     
-        $user = Auth::user();
-        $transactions = $user->transactions;
-        return view('transactions.index', compact('user', 'transactions'));
+        $account = Auth::user()->accounts()->findOrFail(request('account_id'));
+        $transactions = $account->transactions;
+        return view('transactions.index', compact('accounts', 'transactions'));
     }
 
     /**
@@ -35,8 +36,8 @@ class TransactionController extends Controller
     public function store()
     {
 
-        $user = Auth::user();
-        $Valtransactions = request()->validate([
+        $accounts = Auth::user()->accounts()->findOrFail(request('account_id'));
+        $transactions = request()->validate([
             'amount' => ['required','integer'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
             'description' => ['required'],
@@ -44,7 +45,7 @@ class TransactionController extends Controller
         ]);
        
         
-        $user->transactions()->create($Valtransactions);
+        $accounts->transactions()->create($transactions);
        
         // dd($transactions);
 
