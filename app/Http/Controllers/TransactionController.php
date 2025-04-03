@@ -25,9 +25,17 @@ class TransactionController extends Controller
     public function create()
     {
     
-        $account = Auth::user()->accounts()->findOrFail(request('account_id'));
+       
+        $user = Auth::user();
+        $account = Auth::user()->accounts()->find(request('account_id'));
+        
+       
+        if (! $account){
+            return view('dashboard')->with('error','No Accounts available');
+        }
+
         $transactions = $account->transactions;
-        return view('transactions.index', compact('accounts', 'transactions'));
+        return view('transactions.index', compact('transactions','user','account'));
     }
 
     /**
@@ -36,7 +44,7 @@ class TransactionController extends Controller
     public function store()
     {
 
-        $accounts = Auth::user()->accounts()->findOrFail(request('account_id'));
+        $account = Auth::user()->accounts()->findOrFail(request('account_id'));
         $transactions = request()->validate([
             'amount' => ['required','integer'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
@@ -45,7 +53,7 @@ class TransactionController extends Controller
         ]);
        
         
-        $accounts->transactions()->create($transactions);
+        $account->transactions()->create($transactions);
        
         // dd($transactions);
 
