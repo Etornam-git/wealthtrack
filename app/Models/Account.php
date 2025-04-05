@@ -19,9 +19,11 @@ class Account extends Model
     protected $fillable = [
         'first_name',
         'last_name',
+        'account_number', 
         'account_type',
         'balance',
         'email',
+        'user_id', 
     ];
 
     
@@ -41,7 +43,7 @@ class Account extends Model
 
     public static function generateAccountNumber()
     {
-        return 'ACC' . strtoupper(Str::random(3)) . rand(10000, 99999);
+        return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
     }
 
 

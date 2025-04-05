@@ -1,2 +1,4 @@
 Call to a member function delete() on null
 The GET method is not supported for route user/d/5. Supported methods: DELETE.
+go to the accounts page , if no accounts, the account creation form
+or if no accounts there's should be a button to add one
