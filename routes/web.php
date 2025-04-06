@@ -32,8 +32,9 @@ Route::get('/accounts/new', [UserAccountController::class, 'create'])->name('acc
 Route::get('/accounts/{account}', [UserAccountController::class, 'show']);
 Route::get('/accounts', [UserAccountController::class, 'index'])->name('accounts.index');
 Route::post('/accounts', [UserAccountController::class, 'store'])->name('accounts.store');
-Route::patch('/accounts/{account)', [UserAccountController::class, 'update']);
-Route::delete('/accounts/{account)', [UserAccountController::class, 'destroy']);
+Route::post('/accounts/edit/{account}', [UserAccountController::class, 'edit'])->name('accounts.edit');
+Route::patch('/accounts/{account)', [UserAccountController::class, 'update'])->name('accounts.update');
+Route::delete('/accounts/{account)', [UserAccountController::class, 'destroy'])->name('accounts.destroy');
 
 
 

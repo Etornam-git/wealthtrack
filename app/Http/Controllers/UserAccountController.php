@@ -32,6 +32,11 @@ class UserAccountController extends Controller
         return view('accounts.show', ['account' => $account]);
     }
 
+    public function edit(Account $account)
+    {
+        return view('accounts.edit', ['account' => $account]);
+    }
+
     public function store(Request $request)
     {
         

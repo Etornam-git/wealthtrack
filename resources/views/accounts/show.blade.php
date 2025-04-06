@@ -26,14 +26,13 @@
           Edit Account
         </a>
         
-        <form action="/accounts" method="POST" class="inline-block ml-auto"
+        <form action="{{ route('accounts.destroy') }}" method="POST" class="inline-block ml-auto"
               onsubmit="return confirm('Are you sure you want to delete this account?');">
           @csrf
           @method('DELETE')
-          <button type="submit"
-            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-200 ease-in-out transform hover:scale-105">
+          <x-form-button type="submit">
             Delete Account
-          </button>
+          </x-form-button>
         </form>
       </div>
   
