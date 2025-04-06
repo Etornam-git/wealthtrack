@@ -28,9 +28,9 @@ Route::get('/transactions', [TransactionController::class, 'index']);
 Route::get('/transactions/new', [TransactionController::class, 'create']);
 Route::post('/transactions', [TransactionController::class, 'store']);
 
-Route::get('/accounts/{account)', [UserAccountController::class, 'show']);
+Route::get('/accounts/new', [UserAccountController::class, 'create'])->name('accounts.new'); 
+Route::get('/accounts/{account}', [UserAccountController::class, 'show']);
 Route::get('/accounts', [UserAccountController::class, 'index'])->name('accounts.index');
-Route::get('/accounts/create', [UserAccountController::class, 'create'])->name('accounts.create'); 
 Route::post('/accounts', [UserAccountController::class, 'store'])->name('accounts.store');
 Route::patch('/accounts/{account)', [UserAccountController::class, 'update']);
 Route::delete('/accounts/{account)', [UserAccountController::class, 'destroy']);

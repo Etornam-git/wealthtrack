@@ -64,7 +64,8 @@
           </div>
         </div>
 
-        @forelse ($transactions as $transaction)
+        @if ($accounts->count() > 0)
+
           <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
               <thead>
@@ -82,7 +83,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->created_at }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
-                        <a href="/accounts/{account} }}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 underline">
+                        <a href="{{ '/accounts/'.$account->id }}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 underline">
                         {{ $account->account_number }}
                         </a>
                       </td>
@@ -94,11 +95,12 @@
               </tbody>
             </table>
           </div>
-        @empty
+          
+        @else
           <div class="text-center py-4">
             <p class="text-gray-500 dark:text-gray-400">No recent transactions available.</p>
           </div>
-        @endforelse
+        @endif
       </div>
     </div>
   </div>

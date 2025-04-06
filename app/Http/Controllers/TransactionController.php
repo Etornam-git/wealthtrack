@@ -21,7 +21,7 @@ class TransactionController extends Controller
         $accounts = $user->accounts;
         if ($accounts->count() === 0) {
             
-            return redirect()->route('accounts.create')->with('error', 'You must create an account before creating a transaction.');
+            return redirect()->route('accounts.new')->with('error', 'You must create an account before creating a transaction.');
         }
         
         $transactions = $accounts->flatMap(function ($account) {
@@ -40,7 +40,7 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         $accounts = $user->accounts;
-        return view('transactions.create', compact('accounts', 'user'));
+        return view('transactions.new', compact('accounts', 'user'));
        
     }
 
@@ -54,12 +54,19 @@ class TransactionController extends Controller
         $user = Auth::user();
         $account = $user->accounts()->findOrFail(request('account_id'));
         $transactions = request()->validate([
-            'amount' => ['required','integer'],
+            'amount' => ['required','integer', 'gt:0'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
-            'description' => ['required'],
+            'description' => 'nullable|string|max:255', 
             
         ]);
-       
+        if($transactions['transaction_type'] == 'deposit'){
+            $account->balance += $transactions['amount']; 
+        }else if($transactions['transaction_type'] == 'withdrawal'){
+            if ($account->balance < $transactions['amount']) {
+                throw ValidationException::withMessages(['amount' => 'Insufficient funds for withdrawal.']);
+            }
+            $account->balance -= $transactions['amount'];
+        }
         
         $account->transactions()->create($transactions);
         $accounts = $user->accounts;

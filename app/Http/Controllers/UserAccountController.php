@@ -19,9 +19,11 @@ class UserAccountController extends Controller
     public function create(Account $account)
     {
         
-        $user=Auth::user();
-        $accounts = $user->accounts;
-        return view('accounts.create', compact('accounts','user'));
+        $user = Auth::user();
+        if(!$user) {
+            return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
+        }
+        return view('accounts.new', ['account' => $account,'user' => $user]);
     }
 
 

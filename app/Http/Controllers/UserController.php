@@ -59,10 +59,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        return view('users.show', compact('user'));
-    }
+    // public function show(User $user)
+    // {
+    //     return view('users.show', compact('user'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -97,11 +97,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-    }
+    // public function destroy(User $user)
+    // {
+    //     $user->delete();
+    //     return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    // }
 }
 
 
