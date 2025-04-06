@@ -13,7 +13,7 @@ class Account extends Model
     use HasFactory;
     
     protected $casts = [
-        'balance' => 'decimal:15,2',
+        'balance' => 'decimal:2',
     ];
 
     protected $fillable = [
@@ -22,6 +22,7 @@ class Account extends Model
         'account_number', 
         'account_type',
         'balance',
+        'password',
         'email',
         'user_id', 
     ];

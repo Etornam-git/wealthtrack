@@ -55,11 +55,11 @@
 
       <!-- Recent Transactions Table -->
       <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
-        <div class="space-y-4">
-          <h3 class="font-bold text-gray-800 dark:text-gray-100">Recent Transactions</h3>
-          <div class="flex justify-end">
-            <a href="/transactions" class="px-4 py-2 rounded text-gray-800 dark:text-gray-100 hover:bg-indigo-600 hover:text-white transition">
-              All transactions
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">Recent Transactions</h3>
+            <a href="/transactions" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+              View All
             </a>
           </div>
         </div>
@@ -71,17 +71,26 @@
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Description</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Account</th>
                   <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
                 </tr>
               </thead>
               <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
-                @foreach ($transactions as $transaction)
-                  <tr class="hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->created_at }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">${{ number_format($transaction->amount, 2) }}</td>
-                  </tr>
+                @foreach ($accounts as $account)
+                  @foreach ($account->transactions as $transaction)
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-600">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->created_at }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
+                        <a href="/accounts/{account} }}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 underline">
+                        {{ $account->account_number }}
+                        </a>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">${{ number_format($transaction->amount, 2) }}</td>
+                    </tr>
+                    @endforeach
                 @endforeach
+                
               </tbody>
             </table>
           </div>

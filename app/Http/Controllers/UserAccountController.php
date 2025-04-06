@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Account;
+use Illuminate\Support\Str;
 
 class UserAccountController extends Controller
 {
@@ -17,7 +18,7 @@ class UserAccountController extends Controller
 
     public function create(Account $account)
     {
-        // $this->authorize('view', $account); // optional if using policies
+        
         $user=Auth::user();
         $accounts = $user->accounts;
         return view('accounts.create', compact('accounts','user'));
@@ -26,8 +27,7 @@ class UserAccountController extends Controller
 
     public function show(Account $account)
     {
-        // $this->authorize('view', $account); // optional if using policies
-        return view('accounts.show', compact('account'));
+        return view('accounts.show', ['account' => $account]);
     }
 
     public function store(Request $request)
@@ -38,9 +38,11 @@ class UserAccountController extends Controller
             'last_name' => 'required|string|min:3',
             'account_type' => 'required|string|min:3',
             'balance' => 'required|numeric',
+            'password' => 'required|min:6|confirmed',
             'email' => 'required|email',
         ]);
 
+        $validated['account_number'] = Account::generateAccountNumber();
         $validated['user_id'] = Auth::id(); 
         if(!$validated['user_id']) {
             
@@ -48,12 +50,21 @@ class UserAccountController extends Controller
         }
         Account::create($validated);
 
-        return redirect()->back()->with('success', 'Account created successfully.');
+        return redirect()->route('accounts.index')->with('success', 'Account created successfully.');
+    }
+
+
+    public static function generateAccountNumber()
+    {
+        return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
     }
 
     public function update(Request $request, Account $account)
     {
         // $this->authorize('update', $account);
+
+
+        
 
         $validated = $request->validate([
             'first_name' => 'required|string|min:3',

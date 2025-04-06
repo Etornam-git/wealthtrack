@@ -1,1 +1,7 @@
-if every user should have an account, then an account should have a value, meaning on every transaction, there's must be an effect on the account balance, for deposits,(+), for withdrawal,(-)
+if every user should have an account, then an account should have a value, meaning on every transaction, 
+there's must be an effect on the account balance, for deposits,(+), for withdrawal,(-)
+
+go to the accounts page , if no accounts, the account creation form
+or if no accounts there's should be a button to add one
+
+For the ;ist of transactions the user gets to select the view for a specified account

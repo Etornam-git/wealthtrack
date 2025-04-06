@@ -14,12 +14,14 @@
           <x-form-input type="text" name="first_name" id="first_name" value="{{ $user->first_name }}" required  />
           
         </div>
+        <x-form-error name="first_name" />
   
         <div>
           <x-form-label for="last_name" >Last Name</x-form-label>
           <x-form-input type="text" name="last_name" id="last_name" value="{{ $user->last_name }}" 
            required />
         </div>
+        <x-form-error name="last_name" />
   
         <div>
           <x-form-label for="account_type" >Account Type</x-form-label>
@@ -35,16 +37,32 @@
           <x-form-label for="balance" >Initial Balance</x-form-label>
           <x-form-input type="number" name="balance" id="balance"  required placeholder="Initial Balance" />
         </div>
+        <x-form-error name="balance" />
   
         <div>
           <x-form-label for="email" >Email</x-form-label>
           <x-form-input type="email" name="email" id="email"  required  value="{{ $user->email }}"/>
         </div>
+        <x-form-error name="email" />
+
+        <div>
+          <x-form-label for="password" ></x-form-label>
+          <x-form-input id="password" name="password" type="password" required  placeholder="Password" />
+        </div>
+        <x-form-error name="password" />
+
+        <!-- Confirm Password Field -->
+        <div>
+          <x-form-label for="password_confirmation" class="sr-only"></x-form-label>
+          <x-form-input id="password_confirmation" 
+            name="password_confirmation" type="password" required placeholder="Confirm Password" />
+        </div>
+        <x-form-error name="password" />
   
         <div class="flex justify-end">
-          <button type="submit" >
+          <x-form-button type="submit" >
             Create Account
-          </button>
+          </x-form-button>
         </div>
       </form>
     </div>

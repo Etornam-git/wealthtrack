@@ -16,6 +16,20 @@ class TransactionController extends Controller
      */
     public function index(User $user)
     {
+
+        $user = Auth::user();
+        $accounts = $user->accounts;
+        if ($accounts->count() === 0) {
+            
+            return redirect()->route('accounts.create')->with('error', 'You must create an account before creating a transaction.');
+        }
+        
+        $transactions = $accounts->flatMap(function ($account) {
+            return $account->transactions;
+        });
+
+        return view('transactions.index', compact('accounts', 'transactions', 'user'));
+        
         
     }
    
@@ -24,19 +38,12 @@ class TransactionController extends Controller
      */
     public function create()
     {
-    
-       
         $user = Auth::user();
-        $account = Auth::user()->accounts()->find(request('account_id'));
-        
+        $accounts = $user->accounts;
+        return view('transactions.create', compact('accounts', 'user'));
        
-        if (! $account){
-            return view('dashboard')->with('error','No Accounts available');
-        }
-
-        $transactions = $account->transactions;
-        return view('transactions.index', compact('transactions','user','account'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -44,7 +51,8 @@ class TransactionController extends Controller
     public function store()
     {
 
-        $account = Auth::user()->accounts()->findOrFail(request('account_id'));
+        $user = Auth::user();
+        $account = $user->accounts()->findOrFail(request('account_id'));
         $transactions = request()->validate([
             'amount' => ['required','integer'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
@@ -54,10 +62,11 @@ class TransactionController extends Controller
        
         
         $account->transactions()->create($transactions);
+        $accounts = $user->accounts;
        
         // dd($transactions);
 
-        return redirect('transactions.index')->with('success', ('Transaction created successfully.'));
+        return view('transactions.index', compact('user', 'accounts','transactions'))->with('success', ('Transaction created successfully.'));
     }
 
     /**

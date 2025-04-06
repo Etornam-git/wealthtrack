@@ -14,12 +14,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        $accounts = Auth::user()->accounts;
-        $transactions = Transaction::whereIn('account_id', $accounts->pluck('id'))->get();
+        $accounts = Auth::user()->accounts()->with('transactions')->get();
+        $transactions = $accounts->flatMap(function ($account) {
+            return $account->transactions;
+        })->sortByDesc('created_at')->values();
 
-        return view('dashboard', compact('accounts', 'transactions'));
+        $paginatedTransactions = $transactions->forPage(request('page', 1), 5);
+
+        return view('dashboard', compact('accounts', 'paginatedTransactions'));
     }
 
     /**

@@ -24,33 +24,33 @@
         <div class="rounded-md shadow-sm -space-y-px py-15">
           <!-- Name Field -->
           <div>
-            <x-form-label for="first_name">FirstName</x-form-label>
+            <x-form-label for="first_name"></x-form-label>
             <x-form-input id="first_name" name="first_name" type="text" required autofocus  placeholder="Jon" />
           </div>
           <x-form-error name="first_name" />
           <div>
-            <x-form-label for="first_name" >LastName</x-form-label>
+            <x-form-label for="first_name" ></x-form-label>
             <x-form-input id="name" name="last_name" type="text" required autofocus  placeholder="Doe" />
           </div>
            <x-form-error name="last_name" />
 
           <!-- Email Field -->
           <div class="mt-4">
-            <x-form-label for="email">Email address</x-form-label>
+            <x-form-label for="email"></x-form-label>
             <x-form-input id="email" name="email" type="email"  placeholder="Email address"  />
           </div>
            <x-form-error name="email" />
 
           <!-- Password Field -->
           <div class="mt-4">
-            <x-form-label for="password" >Password</x-form-label>
+            <x-form-label for="password" ></x-form-label>
             <x-form-input id="password" name="password" type="password" required  placeholder="Password" />
           </div>
           <x-form-error name="password" />
 
           <!-- Confirm Password Field -->
           <div class="mt-4">
-            <x-form-label for="password_confirmation" class="sr-only">Confirm Password</x-form-label>
+            <x-form-label for="password_confirmation" class="sr-only"></x-form-label>
             <x-form-input id="password_confirmation" 
               name="password_confirmation" type="password" 
               required placeholder="Confirm Password" />
