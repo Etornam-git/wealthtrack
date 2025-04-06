@@ -13,15 +13,18 @@ class Account extends Model
     use HasFactory;
     
     protected $casts = [
-        'balance' => 'decimal:15,2',
+        'balance' => 'decimal:2',
     ];
 
     protected $fillable = [
         'first_name',
         'last_name',
+        'account_number', 
         'account_type',
         'balance',
+        'password',
         'email',
+        'user_id', 
     ];
 
     
@@ -41,7 +44,7 @@ class Account extends Model
 
     public static function generateAccountNumber()
     {
-        return 'ACC' . strtoupper(Str::random(3)) . rand(10000, 99999);
+        return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
     }
 
 

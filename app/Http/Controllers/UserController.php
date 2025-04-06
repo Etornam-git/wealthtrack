@@ -14,12 +14,16 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        $accounts = Auth::user()->accounts;
-        $transactions = Transaction::whereIn('account_id', $accounts->pluck('id'))->get();
+        $accounts = Auth::user()->accounts()->with('transactions')->get();
+        $transactions = $accounts->flatMap(function ($account) {
+            return $account->transactions;
+        })->sortByDesc('created_at')->values();
 
-        return view('dashboard', compact('accounts', 'transactions'));
+        $paginatedTransactions = $transactions->forPage(request('page', 1), 5);
+
+        return view('dashboard', compact('accounts', 'paginatedTransactions'));
     }
 
     /**
@@ -55,10 +59,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
-    {
-        return view('users.show', compact('user'));
-    }
+    // public function show(User $user)
+    // {
+    //     return view('users.show', compact('user'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,11 +97,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-    }
+    // public function destroy(User $user)
+    // {
+    //     $user->delete();
+    //     return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    // }
 }
 
 

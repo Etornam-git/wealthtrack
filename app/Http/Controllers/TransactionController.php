@@ -16,6 +16,20 @@ class TransactionController extends Controller
      */
     public function index(User $user)
     {
+
+        $user = Auth::user();
+        $accounts = $user->accounts;
+        if ($accounts->count() === 0) {
+            
+            return redirect()->route('accounts.new')->with('error', 'You must create an account before creating a transaction.');
+        }
+        
+        $transactions = $accounts->flatMap(function ($account) {
+            return $account->transactions;
+        });
+
+        return view('transactions.index', compact('accounts', 'transactions', 'user'));
+        
         
     }
    
@@ -24,19 +38,12 @@ class TransactionController extends Controller
      */
     public function create()
     {
-    
-       
         $user = Auth::user();
-        $account = Auth::user()->accounts()->find(request('account_id'));
-        
+        $accounts = $user->accounts;
+        return view('transactions.new', compact('accounts', 'user'));
        
-        if (! $account){
-            return view('dashboard')->with('error','No Accounts available');
-        }
-
-        $transactions = $account->transactions;
-        return view('transactions.index', compact('transactions','user','account'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -44,20 +51,29 @@ class TransactionController extends Controller
     public function store()
     {
 
-        $account = Auth::user()->accounts()->findOrFail(request('account_id'));
+        $user = Auth::user();
+        $account = $user->accounts()->findOrFail(request('account_id'));
         $transactions = request()->validate([
-            'amount' => ['required','integer'],
+            'amount' => ['required','integer', 'gt:0'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
-            'description' => ['required'],
+            'description' => 'nullable|string|max:255', 
             
         ]);
-       
+        if($transactions['transaction_type'] == 'deposit'){
+            $account->balance += $transactions['amount']; 
+        }else if($transactions['transaction_type'] == 'withdrawal'){
+            if ($account->balance < $transactions['amount']) {
+                throw ValidationException::withMessages(['amount' => 'Insufficient funds for withdrawal.']);
+            }
+            $account->balance -= $transactions['amount'];
+        }
         
         $account->transactions()->create($transactions);
+        $accounts = $user->accounts;
        
         // dd($transactions);
 
-        return redirect('transactions.index')->with('success', ('Transaction created successfully.'));
+        return view('transactions.index', compact('user', 'accounts','transactions'))->with('success', ('Transaction created successfully.'));
     }
 
     /**

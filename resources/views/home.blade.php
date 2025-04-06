@@ -71,7 +71,7 @@
       <p class="text-xl text-indigo-200 mb-8 animate-fadeInUp delay-200">
         Join thousands of users taking charge of their financial destiny.
       </p>
-      <a href="#register" class="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out animate-fadeInUp delay-400">
+      <a href="/register" class="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out animate-fadeInUp delay-400">
         Sign Up Today
       </a>
     </div>
