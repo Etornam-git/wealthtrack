@@ -10,14 +10,14 @@
         @csrf
         @method('PATCH')
         <div>
-          <x-form-label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</x-form-label>
-          <x-form-input type="text" name="name" id="name" value="{{ old('first_name', $account->first_name) }}" required />
+          <x-form-label for="name" >First Name</x-form-label>
+          <x-form-input type="text" name="first_name" id="name" value="{{ old('first_name', $account->first_name) }}" required />
           <x-form-error name="first_name" />
         </div>
 
         <div>
             <x-form-label for="name" >Last Name</x-form-label>
-            <x-form-input type="text" name="last_name" id="name" value="{{ old('name', $account->last_name) }}" required />
+            <x-form-input type="text" name="last_name" id="name" value="{{ old('last_name', $account->last_name) }}" required />
             <x-form-error name="last_name" />
         </div>
 
@@ -30,19 +30,18 @@
         <!-- Account Type -->
         <div>
           <x-form-label for="type" >Account Type</x-form-label>
-          <select name="type" id="type"
-                  class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
+          <select name="account_type" id="type"
                   required>
-            <option value="savings" {{ $account->type === 'savings' ? 'selected' : '' }}>Savings</option>
-            <option value="checking" {{ $account->type === 'checking' ? 'selected' : '' }}>Checking</option>
-            <option value="investment" {{ $account->type === 'investment' ? 'selected' : '' }}>Investment</option>
+            <option value="savings" {{ $account->account_type === 'savings' ? 'selected' : '' }}>Savings</option>
+            <option value="checking" {{ $account->account_type === 'checking' ? 'selected' : '' }}>Checking</option>
+            <option value="investment" {{ $account->account_type === 'investment' ? 'selected' : '' }}>Investment</option>
           </select>
           <x-form-error name="account_type" />
         </div>
   
         <!-- Submit Button -->
         <div class="flex justify-between items-center">
-          <a href="{{ route('accounts.index') }}" class="text-sm text-indigo-600 hover:underline">← Back to Accounts</a>
+          <a href="{{ '/accounts' }}" class="text-sm text-indigo-600 hover:underline">← Back to Accounts</a>
           <x-form-button type="submit">Save Changes</x-form-button>
         </div>
       </form>

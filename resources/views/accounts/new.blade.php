@@ -33,11 +33,11 @@
           </select>
         </div>
   
-        <div>
-          <x-form-label for="balance" >Initial Balance</x-form-label>
-          <x-form-input type="number" name="balance" id="balance"  required placeholder="Initial Balance" />
+        {{-- <div>
+          <x-form-label for="balance" class="hidden" >Initial Balance</x-form-label>
+          <x-form-input type="number" name="balance" id="balance"  value=0 placeholder="Initial Balance" />
         </div>
-        <x-form-error name="balance" />
+        <x-form-error name="balance" /> --}}
   
         <div>
           <x-form-label for="email" >Email</x-form-label>

@@ -44,7 +44,6 @@ class UserAccountController extends Controller
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
             'account_type' => 'required|string|min:3',
-            'balance' => 'required|numeric',
             'password' => 'required|min:6|confirmed',
             'email' => 'required|email',
         ]);
@@ -69,21 +68,20 @@ class UserAccountController extends Controller
     public function update(Request $request, Account $account)
     {
         // $this->authorize('update', $account);
-
-
-        
-
+        $user = Auth::user();
+        if(!$user) {
+            return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
+        }
         $validated = $request->validate([
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
             'account_type' => 'required|string|min:3',
-            'balance' => 'required|numeric',
             'email' => 'required|email',
         ]);
 
         $account->update($validated);
 
-        return redirect()->back()->with('success', 'Account updated successfully.');
+        return redirect()->route('accounts.index')->with('success', 'Account created successfully.');
     }
 
     public function destroy(Account $account)
@@ -92,7 +90,7 @@ class UserAccountController extends Controller
 
         $account->delete();
 
-        return redirect()->back()->with('success', 'Account deleted successfully.');
+        return redirect('/accounts');
     }
 }
 

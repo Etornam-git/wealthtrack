@@ -17,16 +17,21 @@
     
     @if($accounts->count())
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach($accounts as $account)
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transform transition duration-300 hover:scale-105 animate-fadeInUp">
-            <p class="text-lg font-semibold mb-2">Account #: {{ $account->account_number }}</p>
-            <p class="text-gray-600 dark:text-gray-300 mb-2">Balance: ${{ number_format($account->balance, 2) }}</p>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">Name: {{ $account->first_name }}</p>
-            <a href="{{ url('/accounts/' . $account->id) }}" class="inline-block bg-indigo-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition duration-300">
-              View Details
-            </a>
-          </div>
-        @endforeach
+      @foreach($accounts as $account)
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold text-lg p-3 rounded-t-xl">
+          {{ $account->account_type }} Account.
+        </div>
+        <div class="mt-4">
+          <p class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">Account #: {{ $account->account_number }}</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-1">Balance: ${{ number_format($account->balance, 2) }}</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Name: {{ $account->first_name }}</p>
+        </div>
+        <a href="{{ url('/accounts/' . $account->id) }}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg shadow-md transition-all duration-300">
+          View Details
+        </a>
+        </div>
+      @endforeach
       </div>
     @else
       <div class="flex flex-col items-center justify-center py-16">

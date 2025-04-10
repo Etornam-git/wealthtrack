@@ -9,3 +9,9 @@ the transaction amount must be positive in all regards.
 For deposits, the value must not be less than zero, same for withdrawals too
 Also for withdrawals, the account balance must be more than the requested amount
 .
+
+Today
+The user can't set the initial balance, default is 0
+Complete and test CRUD on accounts.
+Success message for processed transactions
+
