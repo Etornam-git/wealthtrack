@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('account_number')->unique();
             $table->string('account_type');
-            $table->decimal('balance', 15, 2)->nullable()->default(0.0); // default value (0), should allow nulls.
+            $table->decimal('balance', 15, 2)->nullable(); // default value (0), should allow nulls.
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();

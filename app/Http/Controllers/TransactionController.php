@@ -56,9 +56,9 @@ class TransactionController extends Controller
         $transactions = request()->validate([
             'amount' => ['required','integer', 'gt:0'],
             'transaction_type' => ['required', 'string', 'min:3','max:255'],
-            'description' => 'nullable|string|max:255', 
-            
+            'description' => 'nullable|string|max:255',     
         ]);
+
         if($transactions['transaction_type'] == 'deposit'){
             $account->balance += $transactions['amount']; 
         }else if($transactions['transaction_type'] == 'withdrawal'){
@@ -67,8 +67,10 @@ class TransactionController extends Controller
             }
             $account->balance -= $transactions['amount'];
         }
+        $account->save();
         
         $account->transactions()->create($transactions);
+
         $accounts = $user->accounts;
        
         // dd($transactions);

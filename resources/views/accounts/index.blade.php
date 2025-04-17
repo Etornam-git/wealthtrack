@@ -20,7 +20,7 @@
       @foreach($accounts as $account)
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
         <div class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold text-lg p-3 rounded-t-xl">
-          {{ $account->account_type }} Account.
+          {{ $account->account_type }} account.
         </div>
         <div class="mt-4">
           <p class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-1">Account #: {{ $account->account_number }}</p>

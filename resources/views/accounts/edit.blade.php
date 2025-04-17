@@ -32,9 +32,9 @@
           <x-form-label for="type" >Account Type</x-form-label>
           <select name="account_type" id="type"
                   required>
-            <option value="savings" {{ $account->account_type === 'savings' ? 'selected' : '' }}>Savings</option>
-            <option value="checking" {{ $account->account_type === 'checking' ? 'selected' : '' }}>Checking</option>
-            <option value="investment" {{ $account->account_type === 'investment' ? 'selected' : '' }}>Investment</option>
+            <option value="Savings" {{ $account->account_type === 'savings' ? 'selected' : '' }}>Savings</option>
+            <option value="Current" {{ $account->account_type === 'checking' ? 'selected' : '' }}>Current</option>
+            <option value="Investment" {{ $account->account_type === 'investment' ? 'selected' : '' }}>Investment</option>
           </select>
           <x-form-error name="account_type" />
         </div>
