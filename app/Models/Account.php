@@ -29,19 +29,7 @@ class Account extends Model
 
     
 
-    // auto-generated account number
-    protected $account_number;
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($account) {
-            if (!$account->account_number) {
-                $account->account_number = Account::generateAccountNumber();
-            }
-        });
-    }
-
+   
     public static function generateAccountNumber()
     {
         return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);

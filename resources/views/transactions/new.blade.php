@@ -29,8 +29,8 @@
       <div>
         <select name="transaction_type" id="transaction_type" required>
           <option value="">Select Transaction Type</option>
-          <option value="deposit">Deposit</option>
-          <option value="withdrawal">Withdrawal</option>
+          <option name="deposit" value="deposit">Deposit</option>
+          <option name="withdrawal" value="withdrawal">Withdrawal</option>
         </select>
       </div>
       <x-form-error name="transaction_type" />

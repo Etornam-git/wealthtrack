@@ -13,7 +13,7 @@
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Account Information</h2>
         <div class="space-y-2">
           <p class="text-gray-700"><strong class="font-medium">Account Number:</strong> {{ $account->account_number }}</p>
-          <p class="text-gray-700"><strong class="font-medium">Account Type:</strong> {{ $account->type }}</p>
+          <p class="text-gray-700"><strong class="font-medium">Account Type:</strong> {{ $account->account_type }}</p>
           <p class="text-gray-700"><strong class="font-medium">Balance:</strong> ${{ number_format($account->balance, 2) }}</p>
           <p class="text-gray-700"><strong class="font-medium">Created On:</strong> {{ $account->created_at->format('F d, Y') }}</p>
         </div>
@@ -21,19 +21,18 @@
   
       <!-- Action Buttons -->
       <div class="flex space-x-4 mb-6">
-        <a href="{{ '/accounts/' . $account->id }}" 
+        <a href="{{ route('accounts.edit', $account->id) }}" 
            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-200 ease-in-out transform hover:scale-105">
           Edit Account
         </a>
         
-        <form action="/accounts" method="POST" class="inline-block ml-auto"
+        <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" class="inline-block ml-auto"
               onsubmit="return confirm('Are you sure you want to delete this account?');">
           @csrf
           @method('DELETE')
-          <button type="submit"
-            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-200 ease-in-out transform hover:scale-105">
+          <x-form-button type="submit">
             Delete Account
-          </button>
+          </x-form-button>
         </form>
       </div>
   

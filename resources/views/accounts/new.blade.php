@@ -27,18 +27,13 @@
           <x-form-label for="account_type" >Account Type</x-form-label>
           <select name="account_type" id="account_type"  required >
             <option value="">Select type</option>
-            <option value="savings">Savings</option>
-            <option value="current">Current</option>
-            <option value="investment">Investment</option>
+            <option value="Savings">Savings</option>
+            <option value="Current">Current</option>
+            <option value="Investment">Investment</option>
           </select>
         </div>
-  
-        <div>
-          <x-form-label for="balance" >Initial Balance</x-form-label>
-          <x-form-input type="number" name="balance" id="balance"  required placeholder="Initial Balance" />
-        </div>
-        <x-form-error name="balance" />
-  
+        <x-form-error name="account_type" />
+        
         <div>
           <x-form-label for="email" >Email</x-form-label>
           <x-form-input type="email" name="email" id="email"  required  value="{{ $user->email }}"/>
