@@ -15,6 +15,7 @@ class Transaction extends Model
         'amount',
         'transaction_type',
         'description',
+        'budget_id',
     ];
 
     // protected $guarded = [];
@@ -31,5 +32,10 @@ class Transaction extends Model
     public function accounts()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function budget()
+    {
+        return $this->belongsTo(Budget::class);
     }
 }
