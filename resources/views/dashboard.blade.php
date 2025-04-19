@@ -13,10 +13,8 @@
         <ul class="space-y-4">
           @foreach ([
             'accounts' => 'Accounts', 
-            'expenses' => 'Expenses', 
             'budgets' => 'Budgets', 
             'investments' => 'Investments', 
-            'reports' => 'Reports', 
             'settings' => 'Settings'
           ] as $route => $label)
             <li>

@@ -21,7 +21,7 @@ class TransactionController extends Controller
         $accounts = $user->accounts;
         if ($accounts->count() === 0) {
             
-            return redirect()->route('accounts.new')->with('error', 'You must create an account before creating a transaction.');
+            return redirect()->route('accounts.create')->with('error', 'You must create an account before creating a transaction.');
         }
         
         $transactions = $accounts->flatMap(function ($account) {
@@ -40,7 +40,7 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         $accounts = $user->accounts;
-        return view('transactions.new', compact('accounts', 'user'));
+        return view('transactions.create', compact('accounts', 'user'));
        
     }
 

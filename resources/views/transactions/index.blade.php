@@ -8,7 +8,7 @@
       <div class="mb-12">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">All Transactions for {{ $user->first_name }}</h2>
-          <a href="/transactions/new" class="inline-block px-5 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">Add New Transaction</a>
+          <a href="/transactions/create" class="inline-block px-5 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">Add New Transaction</a>
         </div>
         <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

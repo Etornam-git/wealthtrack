@@ -23,7 +23,7 @@ class UserAccountController extends Controller
         if(!$user) {
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
         }
-        return view('accounts.new', ['account' => $account,'user' => $user]);
+        return view('accounts.create', ['account' => $account,'user' => $user]);
     }
 
 

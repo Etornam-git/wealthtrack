@@ -9,7 +9,7 @@
   </div>
   <div class="py-2">
     <div class="flex items-center justify-end mb-6 px-4">
-      <a href='/accounts/new' class="bg-blue-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow transition duration-300">
+      <a href='/accounts/create' class="bg-blue-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg shadow transition duration-300">
         + Create New Account
       </a>
     </div>
@@ -36,7 +36,7 @@
     @else
       <div class="flex flex-col items-center justify-center py-16">
         <p class="text-gray-700 dark:text-gray-300 text-xl mb-6">No accounts found. Please create a new account.</p>
-        <a href="{{ url('/accounts/new') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg shadow transition duration-300">
+        <a href="{{ url('/accounts.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg shadow transition duration-300">
           Create Account
         </a>
       </div>
