@@ -40,7 +40,7 @@ class Account extends Model
 
 
     // account belongs to a user
-    public function acccounts()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

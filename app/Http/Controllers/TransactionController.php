@@ -54,9 +54,22 @@ class TransactionController extends Controller
         $user = Auth::user();
         $validated = request()->validate([
             'account_id' => ['required', 'exists:accounts,id'],
-            'amount' => ['required', 'numeric', 'gt:0'],
-            'transaction_type' => ['required', 'in:deposit,withdrawal'],
+            'amount' => [
+                'required',
+                'numeric',
+                'gt:0',
+                'max:999999999.99', // Maximum amount 
+                'regex:/^\d+(\.\d{1,2})?$/' // only 2 decimal places
+            ],
+            'transaction_type' => [
+                'required',
+                'string',
+                'in:deposit,withdrawal'
+            ],
             'description' => ['nullable', 'string', 'max:255'],
+        ], [
+            'amount.max' => 'The amount cannot exceed 999,999,999.99',
+            'amount.regex' => 'The amount must have no more than 2 decimal places',
         ]);
 
         // 2. Get the account and check if it belongs to user
@@ -65,11 +78,21 @@ class TransactionController extends Controller
                          ->first();
                          
         if (!$account) {
+            \Log::warning('Invalid account access attempt', [
+                'user_id' => $user->id,
+                'account_id' => $validated['account_id']
+            ]);
             return back()->withErrors(['account_id' => 'Invalid account selected.']);
         }
 
         // 3. Check if withdrawal is possible
         if ($validated['transaction_type'] === 'withdrawal' && $account->balance < $validated['amount']) {
+            \Log::info('Insufficient funds for withdrawal', [
+                'user_id' => $user->id,
+                'account_id' => $account->id,
+                'balance' => $account->balance,
+                'amount' => $validated['amount']
+            ]);
             return back()
                 ->withInput()
                 ->withErrors(['amount' => 'Insufficient funds for withdrawal.']);

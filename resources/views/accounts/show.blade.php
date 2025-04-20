@@ -54,7 +54,7 @@
                 <tr>
                   <td class="px-6 py-4">{{ $transaction->created_at }}</td>
                   <td class="px-6 py-4">{{ $transaction->description }}</td>
-                  <td class="px-6 py-4 text-right">${{ number_format($transaction->amount, 2) }}</td>
+                  <td class="px-6 py-4 text-right">₵{{ number_format($transaction->amount, 2) }}</td>
                 </tr>
               @endforeach
             </tbody>

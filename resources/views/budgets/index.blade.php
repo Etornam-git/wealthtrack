@@ -41,12 +41,12 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Budget</span>
-                                    <span class="font-semibold">${{ number_format($budget->amount, 2) }}</span>
+                                    <span class="font-semibold">₵{{ number_format($budget->amount, 2) }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Remaining</span>
                                     <span class="font-semibold {{ $budget->remaining_amount < 0 ? 'text-red-600' : 'text-green-600' }}">
-                                        ${{ number_format($budget->remaining_amount, 2) }}
+                                        ₵{{ number_format($budget->remaining_amount, 2) }}
                                     </span>
                                 </div>
                                 <div class="flex justify-between text-sm text-gray-500">

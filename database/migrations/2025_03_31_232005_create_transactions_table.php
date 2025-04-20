@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Account::class)->constrained()->cascadeOnDelete();
-            $table->Integer('amount');
-            $table->String('transaction_type');
-            $table->String('description');
+            $table->decimal('amount', 15, 2);
+            $table->enum('transaction_type', ['deposit', 'withdrawal']);
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
