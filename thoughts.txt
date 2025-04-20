@@ -48,3 +48,6 @@ The app will track expenses and
 provide insights, but the user is
 always in charge of their financial choices.
 
+BUDGET DONE
+UP NEXT : INVESTMENTS !
+

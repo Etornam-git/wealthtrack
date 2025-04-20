@@ -50,32 +50,52 @@ class TransactionController extends Controller
      */
     public function store()
     {
-
+        // 1. Get the authenticated user and validate input
         $user = Auth::user();
-        $account = $user->accounts()->findOrFail(request('account_id'));
-        $transactions = request()->validate([
-            'amount' => ['required','integer', 'gt:0'],
-            'transaction_type' => ['required', 'string', 'min:3','max:255'],
-            'description' => 'nullable|string|max:255',     
+        $validated = request()->validate([
+            'account_id' => ['required', 'exists:accounts,id'],
+            'amount' => ['required', 'numeric', 'gt:0'],
+            'transaction_type' => ['required', 'in:deposit,withdrawal'],
+            'description' => ['nullable', 'string', 'max:255'],
         ]);
 
-        if($transactions['transaction_type'] == 'deposit'){
-            $account->balance += $transactions['amount']; 
-        }else if($transactions['transaction_type'] == 'withdrawal'){
-            if ($account->balance < $transactions['amount']) {
-                throw ValidationException::withMessages(['amount' => 'Insufficient funds for withdrawal.']);
-            }
-            $account->balance -= $transactions['amount'];
+        // 2. Get the account and check if it belongs to user
+        $account = Account::where('id', $validated['account_id'])
+                         ->where('user_id', $user->id)
+                         ->first();
+                         
+        if (!$account) {
+            return back()->withErrors(['account_id' => 'Invalid account selected.']);
         }
-        $account->save();
-        
-        $account->transactions()->create($transactions);
 
-        $accounts = $user->accounts;
-       
-        // dd($transactions);
+        // 3. Check if withdrawal is possible
+        if ($validated['transaction_type'] === 'withdrawal' && $account->balance < $validated['amount']) {
+            return back()
+                ->withInput()
+                ->withErrors(['amount' => 'Insufficient funds for withdrawal.']);
+        }
 
-        return view('transactions.index', compact('user', 'accounts','transactions'))->with('success', ('Transaction created successfully.'));
+        // 4. Update balance
+        if ($validated['transaction_type'] === 'deposit') {
+            $account->balance += $validated['amount'];
+        } else {
+            $account->balance -= $validated['amount'];
+        }
+
+        // 5. Save everything
+        try {
+            $account->save();
+            $account->transactions()->create($validated);
+
+            return redirect()
+                ->route('transactions.index')
+                ->with('success', 'Transaction completed successfully!');
+
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Something went wrong. Please try again.']);
+        }
     }
 
     /**
