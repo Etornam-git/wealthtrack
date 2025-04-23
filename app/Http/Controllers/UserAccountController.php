@@ -23,7 +23,7 @@ class UserAccountController extends Controller
         if(!$user) {
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
         }
-        return view('accounts.new', ['account' => $account,'user' => $user]);
+        return view('accounts.create', ['account' => $account,'user' => $user]);
     }
 
 
@@ -39,7 +39,6 @@ class UserAccountController extends Controller
 
     public function store(Request $request)
     {
-        
         $validated = $request->validate([
             'first_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
@@ -50,6 +49,7 @@ class UserAccountController extends Controller
 
         $validated['account_number'] = Account::generateAccountNumber();
         $validated['user_id'] = Auth::id(); 
+        
         if(!$validated['user_id']) {
             
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
@@ -67,7 +67,6 @@ class UserAccountController extends Controller
 
     public function update(Request $request, Account $account)
     {
-        // $this->authorize('update', $account);
         $user = Auth::user();
         if(!$user) {
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);

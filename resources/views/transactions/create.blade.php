@@ -11,16 +11,16 @@
       @csrf
       <div>
         <x-form-label for="amount"></x-form-label>
-        <x-form-input type="number" name="amount" id="amount" required placeholder="Enter amount" />
+        <x-form-input type="number" step="0.01" name="amount" id="amount" required placeholder="Enter amount" />
       </div>
       <x-form-error name="amount" />
 
       <div>
-        <x-form-label for="account_id"></x-form-label>
-        <select name="account_id" id="account_id" required>
+        <x-form-label for="account_id">Select Account</x-form-label>
+        <select name="account_id" id="account_id" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
           <option value="">Select Account</option>
           @foreach ($accounts as $account)
-            <option value="{{ $account->id }}">{{ $account->account_number }}</option>
+            <option value="{{ $account->id }}">{{ $account->account_number }} (Balance: ₵{{ number_format($account->balance, 2) }})</option>
           @endforeach
         </select>
       </div>
@@ -36,13 +36,22 @@
       <x-form-error name="transaction_type" />
 
       <div>
-        <x-form-label for="description"></x-form-label>
-        <x-form-textarea name="description" id="description" rows="3" placeholder="Enter a brief description(optional)"></x-form-textarea>
+        <x-form-label for="description">Description (Optional)</x-form-label>
+        <x-form-textarea 
+          name="description" 
+          id="description" 
+          rows="3" 
+          placeholder="Enter a brief description"
+          class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+        ></x-form-textarea>
       </div>
 
       <div>
-        <button type="submit"
-          class="flex justify-center py-3 px-4 border border-transparent rounded-md shadow-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-sm font-medium transition duration-300">
+        <button 
+          type="submit"
+          id="submitBtn"
+          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-sm font-medium transition duration-300"
+        >
           Submit Transaction
         </button>
       </div>

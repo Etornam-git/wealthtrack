@@ -15,3 +15,39 @@ The user can't set the initial balance, default is 0
 Complete and test CRUD on accounts.
 Success message for processed transactions
 
+Budgetting
+Why will I neee a budget ?
+1. To save for something.
+2. To discipline myself in spending
+3. Avoid running out of money
+
+What's your income ?
+All sources of the users money summed up
+
+Expenses : every cedi spent on whether needs or wants
+
+User info
+income
+Total Expenses
+Purpose of budget
+
+
+We’ve agreed that the user should have full
+control over their budgeting process in your app.
+They will define their own income, set limits 
+for each category (e.g., food, rent, transport),
+and manage how they allocate their funds. 
+The app will offer suggestions and structure
+(like default categories and helpful tooltips),
+but ultimately, the user decides what works best
+for them. This ensures the budgeting experience
+is personalized and flexible, allowing users 
+to tailor it to their unique circumstances,
+such as family size or lifestyle.
+The app will track expenses and 
+provide insights, but the user is
+always in charge of their financial choices.
+
+BUDGET DONE
+UP NEXT : INVESTMENTS !
+

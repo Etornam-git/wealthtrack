@@ -13,10 +13,8 @@
         <ul class="space-y-4">
           @foreach ([
             'accounts' => 'Accounts', 
-            'expenses' => 'Expenses', 
             'budgets' => 'Budgets', 
             'investments' => 'Investments', 
-            'reports' => 'Reports', 
             'settings' => 'Settings'
           ] as $route => $label)
             <li>
@@ -34,9 +32,9 @@
       <!-- Top Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         @foreach ([
-          ['Total Expenses', '$4,230'],
+          ['Total Expenses', '₵4,230'],
           ['Budget Utilization', '76%'],
-          ['Investments', '$12,500']
+          ['Investments', '₵12,500']
         ] as [$title, $value])
           <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
             <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{{ $title }}</h3>
@@ -87,7 +85,7 @@
                         {{ $account->account_number }}
                         </a>
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">${{ number_format($transaction->amount, 2) }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">₵{{ number_format($transaction->amount, 2) }}</td>
                     </tr>
                     @endforeach
                 @endforeach

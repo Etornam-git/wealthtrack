@@ -8,9 +8,7 @@ use Barryvdh\Debugbar\DataCollector\SessionCollector;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserAccountController;
-
-// add new
-
+use App\Http\Controllers\BudgetController;
 
 
 Route::resource('users', UserController::class);
@@ -24,24 +22,18 @@ Route::post('/register', [RegisterUserController::class, 'store']);
 
 Route::get('/dashboard', [UserController::class, 'index']);
 
-Route::get('/transactions', [TransactionController::class, 'index']);
-Route::get('/transactions/new', [TransactionController::class, 'create']);
-Route::post('/transactions', [TransactionController::class, 'store']);
+Route::resource('transactions', TransactionController::class);
 
-Route::get('/accounts/new', [UserAccountController::class, 'create'])->name('accounts.new'); 
-Route::get('/accounts/{account}', [UserAccountController::class, 'show']);
-Route::get('/accounts', [UserAccountController::class, 'index'])->name('accounts.index');
-Route::post('/accounts', [UserAccountController::class, 'store'])->name('accounts.store');
-Route::get('/accounts/edit/{account}', [UserAccountController::class, 'edit'])->name('accounts.edit');
-Route::patch('/accounts/{account}', [UserAccountController::class, 'update'])->name('accounts.update');
-Route::delete('/accounts/{account}', [UserAccountController::class, 'destroy'])->name('accounts.destroy');
+Route::resource('accounts', UserAccountController::class); 
 
-
+// Budget Routes
+Route::resource('/budgets',BudgetController::class);
+Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
 
 
 Route::view('/', 'home');
 Route::view('/savings', 'savings');
-Route::view('/budgets', 'budgets');
+// Route::view('/budgets', 'budgets');
 Route::view('/trends', 'trends');
 Route::view('/features', 'features');
 Route::view('/invest', 'invest');
