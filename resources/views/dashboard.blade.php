@@ -32,13 +32,13 @@
       <!-- Top Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         @foreach ([
-          ['Total Expenses', '₵4,230'],
-          ['Budget Utilization', '76%'],
+          ['Total Expenses', sum($transactions)],
+          ['Budget Utilization','Budgets: '. $budget->count()],
           ['Investments', '₵12,500']
         ] as [$title, $value])
           <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
-            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{{ $title }}</h3>
-            <p class="text-2xl font-semibold text-indigo-600">{{ $value }}</p>
+            <h3 class="text-lg font-bold text-gray-400 dark:text-gray-100 mb-2">{{ $title }}</h3>
+            <p class="text-2xl font-bold text-indigo-400">{{ $value }}</p>
           </div>
         @endforeach
       </div>
@@ -76,7 +76,7 @@
               </thead>
               <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
                 @foreach ($accounts as $account)
-                  @foreach ($account->transactions as $transaction)
+                  @foreach ($account->transactions->take(3) as $transaction)
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-600">
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->created_at }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
