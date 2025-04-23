@@ -41,6 +41,7 @@ class SessionController extends Controller
             ]);
         };
 
+        // recycling the token to prevent malicious attacks
         request()->session()->regenerate();
         Auth::login(Auth::user());
 

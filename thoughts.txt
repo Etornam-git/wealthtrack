@@ -48,6 +48,17 @@ The app will track expenses and
 provide insights, but the user is
 always in charge of their financial choices.
 
+The user creates an account, perfoms a transaction;
+each transaction can be optionally be tied to an account - Budget Assignment
+
+Implementation:
+When a transaction is performed and a budget is specified, the tracking should be such that,
+ the budgetController gets the remaining amount, subtracts it from the limit set, for the progressbar, 
+ it divides the remainig amount be the limit set by 100 //DONE
+
+ Now every budget is tied to an account for better tracking.
+  The budget limit cannot exceed the current account balance
+
 BUDGET DONE
 UP NEXT : INVESTMENTS !
 
