@@ -15,6 +15,7 @@
             'accounts' => 'Accounts', 
             'budgets' => 'Budgets', 
             'investments' => 'Investments', 
+            'trends' => 'Trends',
             'settings' => 'Settings'
           ] as $route => $label)
             <li>
@@ -32,7 +33,7 @@
       <!-- Top Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         @foreach ([
-          ['Total Expenses', sum($transactions)],
+          ['Total Expenses', $transactions->sum('amount')],
           ['Budget Utilization','Budgets: '. $budget->count()],
           ['Investments', '₵12,500']
         ] as [$title, $value])
