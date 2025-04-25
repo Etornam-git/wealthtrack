@@ -14,9 +14,10 @@
           @foreach ([
             'accounts' => 'Accounts', 
             'budgets' => 'Budgets', 
+            'savings' => 'Savings',
             'investments' => 'Investments', 
-            'trends' => 'Trends',
-            'settings' => 'Settings'
+            // 'trends' => 'Trends',
+            // 'settings' => 'Settings'
           ] as $route => $label)
             <li>
               <a href="/{{ $route }}" class="block px-4 py-2 rounded text-gray-800 dark:text-gray-100 hover:bg-indigo-600 hover:text-white transition">
@@ -31,11 +32,12 @@
     <!-- Main Dashboard Content -->
     <div class="flex-1 p-6">
       <!-- Top Summary Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         @foreach ([
           ['Total Expenses', $transactions->sum('amount')],
           ['Budget Utilization','Budgets: '. $budget->count()],
-          ['Investments', '₵12,500']
+          ['Investments', '₵12,500'],
+          ['Savings', 'Total Savings'],
         ] as [$title, $value])
           <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
             <h3 class="text-lg font-bold text-gray-400 dark:text-gray-100 mb-2">{{ $title }}</h3>
@@ -46,11 +48,26 @@
 
       <!-- Chart / Graph Placeholder -->
       <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md mb-8 animate-fadeInUp">
-        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Monthly Expenses</h3>
-        <div class="h-64 bg-gray-200 dark:bg-gray-600 rounded-md flex items-center justify-center">
-          <span class="text-gray-600 dark:text-gray-200">Chart Placeholder</span>
+        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Currency converter</h3>
+        <div class="bg-gray-200 dark:bg-gray-600 h-auto rounded-md grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-4">
+          <div class="relative mt-1 block w-full">
+            <select name="currency_from" id="currency_from" class="w-full appearance-none rounded-md border border-gray-300 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-10">
+              <option value="">Select Currency</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
+          <div class="relative mt-1 block w-full">
+            <select name="currency_to" id="currency_to" class="w-full appearance-none rounded-md border border-gray-300 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-10">
+              <option value="">Select Currency</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+            </select>
+          </div>
         </div>
-      </div>
+      </div> 
 
       <!-- Recent Transactions Table -->
       <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
