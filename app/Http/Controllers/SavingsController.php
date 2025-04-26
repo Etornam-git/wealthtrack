@@ -1,20 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\Savings;
-use App\Models\User;
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class SavingsController extends Controller
 {
+    // List all savings plans for user
     public function index()
     {
         $user = Auth::user();
         $savings = $user->savings;
-        return view('savings.index',compact('savings'));
+        return view('savings.index', compact('savings'));
     }
 
+    // Show form to create new savings plan
     public function create()
     {
         $user = Auth::user();
@@ -22,86 +25,87 @@ class SavingsController extends Controller
         return view('savings.create', compact('accounts'));
     }
 
-    public function store(Request $request){
-
-        // authenticated user
+    // Store a new savings plan
+    public function store(Request $request)
+    {
         $user = Auth::user();
 
-        //validate user input
         $validated = $request->validate([
             'account_id' => 'required|exists:accounts,id',
             'planName' => 'required|string',
             'desiredAmount' => 'required|gt:0|numeric',
             'status' => 'required|string|in:active,paused,completed',
             'amount_per_interval' => 'nullable|gt:0|numeric',
-            'regularity' => 'required|string|in:daily,weekly,monthly,quarterly,yearly',
+            'regularity' => 'required|string|in:daily,weekly,biweekly,monthly,quarterly,yearly',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'automatic' => 'boolean',
-            'description'=> 'nullable|string'
+            'description' => 'nullable|string',
         ]);
 
+        // Force 'automatic' to true or false
         $validated['automatic'] = $request->has('automatic');
 
-        // Add defaults
-        $validated['user_id'] = $user->id;
-        $validated['savedAmount'] = 0; // Default
-        $validated['status'] = 'active'; // Default
+        // Confirm the account belongs to the user
+        $account = Account::where('id', $validated['account_id'])
+            ->where('user_id', $user->id)
+            ->first();
 
-        //confirm the account exists and is for the assigned user.
-        $account = $user->accounts->firstWhere('id', $validated['account_id']);
-        
-        //redirect back to the page if not.
         if (!$account) {
             return back()->with('error', 'Selected account not found.');
         }
 
+        // Set default values
+        $validated['user_id'] = $user->id;
+        $validated['savedAmount'] = 0;
+        $validated['status'] = 'active'; // Always start with 'active' status
 
-        //create the new record.
-        $user->savings->create($validated);
-        
-        //redirect to the savings index page.
-        return view('savings.index', compact('savings'));
+        // Create the new savings plan
+        $user->savings()->create($validated);
+
+        return redirect()->route('savings.index')->with('success', 'Savings plan created successfully.');
     }
 
-    //Details for a singgle plan
+    // Show a single savings plan
     public function show($id)
     {
         $savings = Savings::findOrFail($id);
         return view('savings.show', compact('savings'));
     }
 
-    //Page for editing a plan
+    // Show form to edit a savings plan
     public function edit($id)
     {
         $savings = Savings::findOrFail($id);
         return view('savings.edit', compact('savings'));
     }
 
-    //Update plan form
+    // Update a savings plan
     public function update(Request $request, $id)
     {
-        $user = Auth::user();
-        $savings = $user->savings;
+        $savings = Savings::findOrFail($id); // Correct way: find specific record
+
         $validated = $request->validate([
             'account_id' => 'required|exists:accounts,id',
             'user_id' => 'required|exists:users,id',
             'planName' => 'required|string',
             'desiredAmount' => 'required|gt:0|numeric',
-            'savedAmount' => 'required|gt:0|numeric',
+            'savedAmount' => 'required|gte:0|numeric', // Corrected to allow 0
             'status' => 'required|string|in:active,paused,completed',
-            'amount_per_interval' => 'nullabe|gt:0|numeric',
-            'regularity' => 'required|string|in:daily,weekly,monthly,quarterly,yearly',
+            'amount_per_interval' => 'nullable|gt:0|numeric',
+            'regularity' => 'required|string|in:daily,weekly,biweekly,monthly,quarterly,yearly',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'automatic' => 'required|boolean',
-            'description'=> 'nullabel|string'
+            'description' => 'nullable|string',
         ]);
+
         $savings->update($validated);
+
         return redirect()->route('savings.index')->with('success', 'Savings updated successfully.');
     }
 
-    //Delete a plan
+    // Delete a savings plan
     public function destroy($id)
     {
         $savings = Savings::findOrFail($id);

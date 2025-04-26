@@ -8,7 +8,6 @@
   
       <form action="{{ route('savings.store') }}" method="POST" class="space-y-6">
         @csrf
-  
         <div>
           <x-form-label for="planName">Plan Name</x-form-label>
           <x-form-input type="text" name="planName" id="planName" value="{{ old('planName') }}" required />
@@ -42,6 +41,9 @@
             <option value="weekly" {{ old('regularity') == 'weekly' ? 'selected' : '' }}>Weekly</option>
             <option value="biweekly" {{ old('regularity') == 'biweekly' ? 'selected' : '' }}>Biweekly</option>
             <option value="monthly" {{ old('regularity') == 'monthly' ? 'selected' : '' }}>Monthly</option>
+            <option value="quarterly" {{ old('regularity') == 'quarterly' ? 'selected' : '' }}>Quartely</option>
+            <option value="yearly" {{ old('regularity') == 'yearly' ? 'selected' : '' }}>Yearly</option>
+
           </select>
         </div>
         <x-form-error name="regularity" />

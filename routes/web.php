@@ -16,25 +16,31 @@ Route::view('/', 'home');
 
 Route::resource('users', UserController::class);
 
-Route::get('/login', [SessionController::class, 'create']);
+Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
-Route::post('/logout', [SessionController::class, 'destroy']);
 
-Route::get('/register', [RegisterUserController::class, 'create']);
+Route::get('/register', [RegisterUserController::class, 'create'])->name('register');
 Route::post('/register', [RegisterUserController::class, 'store']);
 
-Route::get('/dashboard', [UserController::class, 'index']);
+//Protected routes. Only authenticated user access.
+Route::middleware('auth')->group(function (){
+    Route::post('/logout', [SessionController::class, 'destroy']);
 
-Route::resource('transactions', TransactionController::class);
+    Route::get('/dashboard', [UserController::class, 'index']);
 
-Route::resource('accounts', UserAccountController::class); 
+    Route::resource('transactions', TransactionController::class);
+    
+    Route::resource('accounts', UserAccountController::class); 
+    
+    Route::resource('savings', SavingsController::class);
+    
+    // Budget Routes
+    Route::resource('budgets',BudgetController::class);
+    Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
+    
+    Route::resource('investment', InvestmentController::class);
+    
+});
 
-Route::resource('savings', SavingsController::class);
-
-// Budget Routes
-Route::resource('/budgets',BudgetController::class);
-Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
-
-Route::resource('investment', InvestmentController::class);
 
 

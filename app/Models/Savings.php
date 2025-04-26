@@ -11,18 +11,15 @@ class Savings extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'account_id',
         'planName',
-        'regularity',
         'desiredAmount',
-        'savedAmount',
+        'status',
+        'amount_per_interval',
         'regularity',
         'start_date',
-        'automatic',
-        'amount_per_interval',
-        'description',
         'end_date',
+        'automatic',
+        'description',
     ];
 
     protected $casts = [
