@@ -11,6 +11,8 @@ class Savings extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'account_id',
         'planName',
         'desiredAmount',
         'status',

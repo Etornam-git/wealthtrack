@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('account_id')->constrained()->cascadeOnDelete();
             $table->string('planName');
             $table->decimal('desiredAmount', 12, 2); 
-            $table->enum('regularity', ['daily', 'weekly', 'biweekly', 'monthly']);
+            $table->enum('regularity', ['daily', 'weekly', 'biweekly', 'monthly', 'quarterly', 'yearly']);
             $table->decimal('amount_per_interval', 12, 2)->nullable(); 
             $table->date('start_date');
             $table->date('end_date');

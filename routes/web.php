@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function (){
     Route::resource('accounts', UserAccountController::class); 
     
     Route::resource('savings', SavingsController::class);
+    Route::get('/deposit', [SavingsController::class, 'deposit'])->name('savings.deposit');
+    Route::post('/deposit/{id}', [SavingsController::class, 'deposit'])->name('savings.deposit');
     
     // Budget Routes
     Route::resource('budgets',BudgetController::class);
