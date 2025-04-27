@@ -179,15 +179,14 @@ class SavingsController extends Controller
             $savings->savedAmount += $savings->amount_per_interval;
             $savings->save();
             $account->save();
-            return redirect()->route('savings.show', $savings->id)->with('success', 'Deposit successful.');
+            if( $savings->savedAmount >= $savings->desiredAmount){
+                $savings->status = 'completed';
+                $savings->save();
+                return redirect()->route('savings.show', $savings->id)->with('success', 'Savings plan completed successfully.');
+            }
             
         }
 
-        else if( $savings->savedAmount >= $savings->desiredAmount){
-            $savings->status = 'completed';
-            $savings->save();
-            return redirect()->route('savings.show', $savings->id)->with('success', 'Savings plan completed successfully.');
-        }
 
         //else do the normal way
         else {
@@ -199,6 +198,12 @@ class SavingsController extends Controller
             $savings->savedAmount += $amount;
             $savings->save();
             $account->save();
+
+            // Check if the savings plan is completed
+            if ($savings->savedAmount >= $savings->desiredAmount) {
+                $savings->status = 'completed';
+                $savings->save();
+            }
             return redirect()->route('savings.show', $savings->id)->with('success', 'Deposit successful.');
         }
     }

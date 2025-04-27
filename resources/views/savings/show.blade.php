@@ -4,7 +4,7 @@
   </x-slot:pagename>
 
   <!-- Modal -->
-  <div id="depositModal" class="fixed inset-0 bg-gray-600 bg-opacity-30 backdrop-blur-sm overflow-y-auto h-full w-full hidden target:flex items-center justify-center z-50 p-4 sm:p-6 md:p-8">
+  <div id="depositModal" class="fixed inset-0  bg-opacity-10 backdrop-blur-sm overflow-y-auto h-full w-full hidden target:flex items-center justify-center z-50 p-4 sm:p-6 md:p-8">
     <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full mx-auto transform transition-all duration-300 scale-95 target:scale-100">
       <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
         <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Make a Deposit</h3>
