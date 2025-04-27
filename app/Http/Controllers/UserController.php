@@ -16,14 +16,16 @@ class UserController extends Controller
      */
     public function index(User $user)
     {
-        $accounts = Auth::user()->accounts()->with('transactions')->get();
+        $user = Auth::user();
+        $accounts = $user->accounts()->with('transactions')->get();
+        $budget = $user->budgets;
         $transactions = $accounts->flatMap(function ($account) {
             return $account->transactions;
         })->sortByDesc('created_at')->values();
 
-        $paginatedTransactions = $transactions->forPage(request('page', 1), 5);
+        
 
-        return view('dashboard', compact('accounts', 'paginatedTransactions'));
+        return view('dashboard', compact('accounts', 'transactions', 'budget'));
     }
 
     /**

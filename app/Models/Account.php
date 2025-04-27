@@ -14,6 +14,7 @@ class Account extends Model
     
     protected $casts = [
         'balance' => 'decimal:2',
+        'password' => 'hashed',
     ];
 
     protected $fillable = [

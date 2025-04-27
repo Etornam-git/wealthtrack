@@ -45,9 +45,19 @@
                                 <option value="Utilities" {{ old('category') == 'Utilities' ? 'selected' : '' }}>Utilities</option>
                                 <option value="Insurance" {{ old('category') == 'Insurance' ? 'selected' : '' }}>Insurance</option>
                                 <option value="Healthcare" {{ old('category') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
-                                <option value="Savings" {{ old('category') == 'Savings' ? 'selected' : '' }}>Savings</option>
+                                <option value="School" {{ old('category') == 'School' ? 'selected' : '' }}>School</option>
                                 <option value="Entertainment" {{ old('category') == 'Entertainment' ? 'selected' : '' }}>Entertainment</option>
                                 <option value="Other" {{ old('category') == 'Other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="account_id" class="block text-sm font-medium text-gray-700">Select Account:</label>
+                            <select name="account_id" id="account_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="">Select an account</option>
+                                @foreach ($accounts as $account)
+                                    <option value="{{ $account->id }}">{{ $account->first_name }} - {{ $account->account_number }}</option>
+                                @endforeach
                             </select>
                         </div>
 

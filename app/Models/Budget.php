@@ -12,6 +12,7 @@ class Budget extends Model
     
     protected $fillable = [
         'user_id',
+        'account_id',
         'category',
         'amount',
         'period', // monthly, quarterly, yearly
@@ -30,6 +31,11 @@ class Budget extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 
     public function transactions()

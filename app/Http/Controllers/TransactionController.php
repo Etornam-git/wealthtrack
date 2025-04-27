@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class TransactionController extends Controller
 {
@@ -40,7 +41,8 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         $accounts = $user->accounts;
-        return view('transactions.create', compact('accounts', 'user'));
+        $budgets = $user->budgets;
+        return view('transactions.create', compact('accounts', 'user','budgets'));
        
     }
 
@@ -54,6 +56,7 @@ class TransactionController extends Controller
         $user = Auth::user();
         $validated = request()->validate([
             'account_id' => ['required', 'exists:accounts,id'],
+            'budget_id' => 'nullable|exists:budgets,id',
             'amount' => [
                 'required',
                 'numeric',
@@ -78,7 +81,7 @@ class TransactionController extends Controller
                          ->first();
                          
         if (!$account) {
-            \Log::warning('Invalid account access attempt', [
+            Log::warning('Invalid account access attempt', [
                 'user_id' => $user->id,
                 'account_id' => $validated['account_id']
             ]);
@@ -87,7 +90,7 @@ class TransactionController extends Controller
 
         // 3. Check if withdrawal is possible
         if ($validated['transaction_type'] === 'withdrawal' && $account->balance < $validated['amount']) {
-            \Log::info('Insufficient funds for withdrawal', [
+            Log::info('Insufficient funds for withdrawal', [
                 'user_id' => $user->id,
                 'account_id' => $account->id,
                 'balance' => $account->balance,
