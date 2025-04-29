@@ -9,10 +9,13 @@ use App\Http\Controllers\SavingsController;
 use App\Http\Controllers\RegisterUserController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserAccountController;
-use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\BudgetController;
+use App\Models\Review;
 
-Route::view('/', 'home');
+Route::get('/', function () {
+    $reviews = Review::latest()->take(3)->get();
+    return view('home', compact('reviews'));
+});
 
 
 Route::get('/login', [SessionController::class, 'create'])->name('login');
@@ -41,9 +44,10 @@ Route::middleware('auth')->group(function (){
     // Budget Routes
     Route::resource('budgets',BudgetController::class);
     Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
-    
-    // Route::resource('investment', InvestmentController::class);
-    Route::post('/leave-a-review', [UserController::class, 'storeReview'])->name('leave-a-review.store');
+
+    //Reviews
+    Route::get('/leave-a-review', [UserController::class, 'review']);
+    Route::post('/leave-a-review', [UserController::class, 'review'])->name('leave-a-review.review');
     
 });
 

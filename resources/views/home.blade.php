@@ -62,6 +62,37 @@
     </div>
   </section>
 
+  <!-- Recent Reviews Section -->
+    <section class="py-16 bg-white dark:bg-gray-900">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 animate-fadeInUp">
+          What Our Users Are Saying
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          @foreach ($reviews as $review)
+            <!-- Review Card -->
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6 animate-fadeInUp delay-200">
+              <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                “{{ $review->review }}”
+              </p>
+                <div class="flex justify-between items-center">
+                <div class="text-left">
+                  <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Rating: {{ $review->user->rating }}</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  – {{ $review->user->last_name }} {{ $review->user->first_name }}
+                  </span>
+                </div>
+                </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
+    </section>
+
+
+
   <!-- Call to Action Section -->
   <section class="bg-indigo-600 py-16">
     <div class="max-w-7xl mx-auto px-6 text-center">

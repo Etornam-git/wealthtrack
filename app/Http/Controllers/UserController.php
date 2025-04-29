@@ -55,19 +55,65 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, User $user)
+        public function revisew(Request $request)
     {
+        // Get the authenticated user
+        $user = Auth::user();
+        
+        // Validate the request data
         $validated = $request->validate([
-            'review' => 'required',
+            'review' => 'required|string|max:1000',  
+            'rating' => 'nullable|integer|min:1|max:5',  
         ]);
-        $review = Review::where('user_id', $user->id)->first();
 
-        $review->create($validated);
+        // Add the authenticated user's ID to the validated data
+        $validated['user_id'] = $user->id;
 
+        // Create the review in the database
+        $review = Review::create($validated);
 
-        return redirect()->route('dashboard')->with('success', 'User created successfully.');
+        if ($user->review()->exists() ){
+            return redirect()->route('dashboard')->with('success', 'We have your review. Thanks.');
+        }
+        else {
+            return redirect()->route('dashboard')->with('error', 'There was an error submitting your review. Please try again.');
+        }
     }
 
+        public function review(Request $request)
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Validate the request data
+        $validated = $request->validate([
+            'review' => 'required|string|max:1000',  
+            'rating' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        // Add the authenticated user's ID to the validated data
+        $validated['user_id'] = $user->id;
+
+        try {
+            // Create the review in the database
+            Review::create($validated);
+
+            // If creation is successful, redirect with success message
+            return redirect()->route('dashboard')->with('success', 'Your review has been submitted successfully.');
+        } catch (\Exception $e) {
+            // If something goes wrong, handle the exception and show an error message
+            return redirect()->route('dashboard')->with('error', 'There was an error submitting your review. Please try again.');
+        }
+    }
+
+    public function showReviews()
+    {
+        // Get all reviews, you can add any filter conditions if needed (e.g., limit or paginate)
+        $reviews = Review::all(); 
+
+        // Pass reviews to the view
+        return view('reviews.index', compact('reviews'));
+    }
 
 
     /**
