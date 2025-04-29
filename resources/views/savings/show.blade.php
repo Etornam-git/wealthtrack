@@ -183,9 +183,14 @@
               </div>
               <div class="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700">
                 <span class="text-gray-600 dark:text-gray-400">Time Remaining</span>
-                <span class="font-medium text-gray-900 dark:text-white">
-                  {{ \Carbon\Carbon::now()->diffForHumans($savings->end_date, ['parts' => 2]) }}
-                </span>
+                @if ($savings->status == 'completed')
+                  <span class="font-medium text-gray-900 dark:text-white">Savings Completed </span>
+                @else
+                  <span class="font-medium text-gray-900 dark:text-white">
+                    {{ \Carbon\Carbon::now()->diffForHumans($savings->end_date, ['parts' => 2]) }}
+                  </span>
+                @endif
+                
               </div>
             </div>
           </div>

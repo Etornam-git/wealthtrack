@@ -14,7 +14,6 @@ use App\Http\Controllers\BudgetController;
 
 Route::view('/', 'home');
 
-Route::resource('users', UserController::class);
 
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
@@ -24,9 +23,12 @@ Route::post('/register', [RegisterUserController::class, 'store']);
 
 //Protected routes. Only authenticated user access.
 Route::middleware('auth')->group(function (){
+
     Route::post('/logout', [SessionController::class, 'destroy']);
 
-    Route::get('/dashboard', [UserController::class, 'index']);
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [UserController::class, 'index'])->name('customer.profile');
+
 
     Route::resource('transactions', TransactionController::class);
     
@@ -40,7 +42,8 @@ Route::middleware('auth')->group(function (){
     Route::resource('budgets',BudgetController::class);
     Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
     
-    Route::resource('investment', InvestmentController::class);
+    // Route::resource('investment', InvestmentController::class);
+    Route::post('/leave-a-review', [UserController::class, 'storeReview'])->name('leave-a-review.store');
     
 });
 

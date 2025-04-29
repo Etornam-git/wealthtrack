@@ -45,7 +45,7 @@
             <x-nav-link href="/budgets" :active="request()->is('budgets')">Budgets</x-nav-link>
           </li>
           <li>
-            <x-nav-link href="/investment" :active="request()->is('investment')">investment</x-nav-link>
+            <x-nav-link href="/profile" :active="request()->is('profile')">Profile</x-nav-link>
           </li>
           
           <li>

@@ -36,10 +36,6 @@ class Account extends Model
         return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
     }
 
-
-
-
-
     // account belongs to a user
     public function user()
     {
@@ -50,6 +46,10 @@ class Account extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function savings(){
+        return $this->hasMany(Savings::class);
     }
 
 }

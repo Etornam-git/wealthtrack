@@ -47,7 +47,7 @@ class BudgetController extends Controller
                 'amount' => "Your account balance (GHS {$account->balance}) is less than the budget limit you set (GHS {$validated['amount']}). Please reduce the budget amount or choose a different account."
             ])->withInput();
         }
-        dd($validated);
+        // dd($validated);
         $user->budgets()->create($validated);
         
         return redirect()->route('budgets.index')

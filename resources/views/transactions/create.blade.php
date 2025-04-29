@@ -47,12 +47,12 @@
       <x-form-error name="transaction_type" />
 
       <div>
-        <x-form-label for="description">Description (Optional)</x-form-label>
+        <x-form-label for="description">Description <small>Advisable for tracking expenses<small></x-form-label>
         <x-form-textarea 
           name="description" 
           id="description" 
           rows="3" 
-          placeholder="Enter a brief description"
+          placeholder="Enter a brief description.(Optional)"
           class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         ></x-form-textarea>
       </div>

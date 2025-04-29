@@ -65,4 +65,8 @@ class User extends Authenticatable
     public function savings(){
         return $this->hasMany(Savings::class);
     }
+
+    public function review(){
+        return $this->hasMany(Review::class);
+    }
 }

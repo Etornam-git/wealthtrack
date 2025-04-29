@@ -139,7 +139,7 @@ class SavingsController extends Controller
             'regularity' => 'required|string|in:daily,weekly,biweekly,monthly,quarterly,yearly',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'automatic' => 'required|boolean',
+            'automatic' => 'boolean',
             'description' => 'nullable|string|max:1000',
         ]);
 
@@ -160,6 +160,7 @@ class SavingsController extends Controller
 
     //Deposit into the savings
     public function deposit(Request $request, $id){
+        
         // verify authenticated user
         $user = Auth::user();
 
@@ -167,6 +168,16 @@ class SavingsController extends Controller
         $deposit = $request->validate([
             'amount' => 'required|numeric|gt:0',
         ]);
+
+        //check automation period
+        $periodsMap = [
+            'daily' => 1,
+            'weekly' => 7,
+            'biweekly' => 14,
+            'monthly' => 30,
+            'quarterly' => 90,
+            'yearly' => 365
+        ];
 
         //confirm  savins belongs to user, hence get the related accounts
         

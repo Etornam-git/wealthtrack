@@ -170,4 +170,5 @@ The application follows best practices in terms of:
 
 
 
-The currecny conversion:
+Currently we're doing user profile with crud abilities, automated savings deductions(laravel tasks)
+Leaving reviews by users 
