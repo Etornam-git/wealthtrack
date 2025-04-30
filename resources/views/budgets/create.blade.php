@@ -1,119 +1,112 @@
 <x-layout>
-    <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-semibold text-gray-800">Create New Budget</h2>
-                <a href="{{ route('budgets.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md">
-                    Back to Budgets
-                </a>
-            </div>
+    <x-slot:pagename>Create New Budget</x-slot:pagename>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    @if ($errors->any())
-                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
-                                    <div class="mt-2 text-sm text-red-700">
-                                        <ul class="list-disc pl-5 space-y-1">
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+    <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+        <div class="mb-6 flex justify-between items-center">
+            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">Create New Budget</h2>
+            <a href="{{ route('budgets.index') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">
+                Back to Budgets
+            </a>
+        </div>
 
-                    <form action="{{ route('budgets.store') }}" method="POST" class="space-y-6">
-                        @csrf
-                        
-                        <div>
-                            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                            <select name="category" id="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                <option value="">Select a category</option>
-                                <option value="Housing" {{ old('category') == 'Housing' ? 'selected' : '' }}>Housing</option>
-                                <option value="Transportation" {{ old('category') == 'Transportation' ? 'selected' : '' }}>Transportation</option>
-                                <option value="Food" {{ old('category') == 'Food' ? 'selected' : '' }}>Food</option>
-                                <option value="Utilities" {{ old('category') == 'Utilities' ? 'selected' : '' }}>Utilities</option>
-                                <option value="Insurance" {{ old('category') == 'Insurance' ? 'selected' : '' }}>Insurance</option>
-                                <option value="Healthcare" {{ old('category') == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
-                                <option value="School" {{ old('category') == 'School' ? 'selected' : '' }}>School</option>
-                                <option value="Entertainment" {{ old('category') == 'Entertainment' ? 'selected' : '' }}>Entertainment</option>
-                                <option value="Other" {{ old('category') == 'Other' ? 'selected' : '' }}>Other</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="account_id" class="block text-sm font-medium text-gray-700">Select Account:</label>
-                            <select name="account_id" id="account_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                <option value="">Select an account</option>
-                                @foreach ($accounts as $account)
-                                    <option value="{{ $account->id }}">{{ $account->first_name }} - {{ $account->account_number }}</option>
+        @if ($errors->any())
+            <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800 dark:text-red-200">There were errors with your submission</h3>
+                        <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
                                 @endforeach
-                            </select>
+                            </ul>
                         </div>
-
-                        <div>
-                            <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">₵</span>
-                                </div>
-                                <input type="number" name="amount" id="amount" step="0.01" min="0" required 
-                                    value="{{ old('amount') }}"
-                                    class="pl-7 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="period" class="block text-sm font-medium text-gray-700">Period</label>
-                            <select name="period" id="period" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                                <option value="">Select a period</option>
-                                <option value="monthly" {{ old('period') == 'monthly' ? 'selected' : '' }}>Monthly</option>
-                                <option value="quarterly" {{ old('period') == 'quarterly' ? 'selected' : '' }}>Quarterly</option>
-                                <option value="yearly" {{ old('period') == 'yearly' ? 'selected' : '' }}>Yearly</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" required 
-                                value="{{ old('start_date') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        </div>
-
-                        <div>
-                            <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
-                            <input type="date" name="end_date" id="end_date" required 
-                                value="{{ old('end_date') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        </div>
-
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
-                            <textarea name="description" id="description" rows="3" 
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('description') }}</textarea>
-                        </div>
-
-                        <div class="flex items-center justify-between pt-4">
-                            <a href="{{ route('budgets.index') }}" class="text-gray-600 hover:text-gray-800">
-                                Cancel
-                            </a>
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-                                Create Budget
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
+
+        <form action="{{ route('budgets.store') }}" method="POST" class="space-y-6">
+            @csrf
+            
+            <x-form-select
+                name="category"
+                label="Category"
+                :options="[
+                    'housing' => 'Housing',
+                    'transportation' => 'Transportation',
+                    'food' => 'Food',
+                    'utilities' => 'Utilities',
+                    'insurance' => 'Insurance',
+                    'healthcare' => 'Healthcare',
+                    'debt' => 'Debt',
+                    'entertainment' => 'Entertainment',
+                    'personal' => 'Personal',
+                    'education' => 'Education',
+                    'savings' => 'Savings',
+                    'other' => 'Other'
+                ]"
+                required
+                :error="$errors->first('category')"
+                :selected="old('category')"
+            />
+
+            <x-form-select
+                name="account_id"
+                label="Account"
+                :options="$accounts->mapWithKeys(function($account) {
+                    return [$account->id => $account->name . ' - ' . $account->account_number];
+                })"
+                required
+                :error="$errors->first('account_id')"
+                :selected="old('account_id')"
+            />
+
+            <div>
+                <x-form-label for="amount">Amount</x-form-label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500 dark:text-gray-400 sm:text-sm">₵</span>
+                    </div>
+                    <x-form-input type="number" name="amount" id="amount" step="0.01" min="0" required 
+                        value="{{ old('amount') }}" class="pl-7" />
+                </div>
+                <x-form-error name="amount" />
+            </div>
+
+            <x-form-select
+                name="period"
+                label="Period"
+                :options="['daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly', 'yearly' => 'Yearly']"
+                required
+                :error="$errors->first('period')"
+                :selected="old('period')"
+            />
+
+            <div>
+                <x-form-label for="start_date">Start Date</x-form-label>
+                <x-form-input type="date" name="start_date" id="start_date" required 
+                    value="{{ old('start_date') }}" />
+                <x-form-error name="start_date" />
+            </div>
+
+            <div>
+                <x-form-label for="end_date">End Date</x-form-label>
+                <x-form-input type="date" name="end_date" id="end_date" required 
+                    value="{{ old('end_date') }}" />
+                <x-form-error name="end_date" />
+            </div>
+
+            <div class="flex justify-end">
+                <x-form-button type="submit">
+                    Create Budget
+                </x-form-button>
+            </div>
+        </form>
     </div>
 </x-layout> 

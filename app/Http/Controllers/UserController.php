@@ -106,15 +106,6 @@ class UserController extends Controller
         }
     }
 
-    public function showReviews()
-    {
-        // Get all reviews, you can add any filter conditions if needed (e.g., limit or paginate)
-        $reviews = Review::all(); 
-
-        // Pass reviews to the view
-        return view('reviews.index', compact('reviews'));
-    }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -127,14 +118,26 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
+        $user = Auth::user();
+        
         $validated = $request->validate([
             'first_name' => ['required', 'string', 'min:3', 'max:255'],
             'last_name' => ['required', 'string', 'min:3', 'max:255'],
+            'phone' => ['required', 'max:15','string'],
+            'location' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed']
         ]);
+
+        // Remove password from validated data if it's null
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            // Hash the password if it's provided
+            $validated['password'] = Hash::make($validated['password']);
+        }
 
         $user->update($validated);
 
@@ -142,12 +145,23 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the user's account.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
+        $user = Auth::user();
+        
+        // Logout the user
+        Auth::logout();
+        
+        // Delete the user
         $user->delete();
-        return redirect()->route('login')->with('success', 'User deleted successfully.');
+        
+        // Invalidate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('login')->with('success', 'Your account has been deleted successfully.');
     }
 }
 

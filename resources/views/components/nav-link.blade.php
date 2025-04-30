@@ -1,8 +1,5 @@
+@props(['active' => false, 'type' => 'a'])
 
-@props(['active'=>'false', 'type'=>'a'])
-
-  
-<{{ $type }} href="{{ $attributes->get('href') }}"
-   class="{{ $active ? 'bg-blue-600 text-white font-medium px-4 py-2 rounded-lg shadow-md' : 'text-gray-500 hover:bg-blue-100 hover:text-blue-600 font-medium px-4 py-2 rounded-lg transition duration-200' }}" aria-current="{{ $active ? 'page' : 'false' }}">{{ $slot }}
-   
+<{{ $type }} {{ $attributes->merge(['class' => 'inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition duration-200 ease-in-out ' . ($active ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700')]) }} aria-current="{{ $active ? 'page' : 'false' }}">
+    {{ $slot }}
 </{{ $type }}>

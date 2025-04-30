@@ -25,12 +25,19 @@
   
         <div>
           <x-form-label for="account_type" >Account Type</x-form-label>
-          <select name="account_type" id="account_type"  required >
-            <option value="">Select type</option>
-            <option value="Savings">Savings</option>
-            <option value="Current">Current</option>
-            <option value="Investment">Investment</option>
-          </select>
+          <x-form-select
+            name="account_type"
+            label="Account Type"
+            :options="[
+                'savings' => 'Savings Account',
+                'current' => 'Current Account',
+                'fixed_deposit' => 'Fixed Deposit Account',
+                'investment' => 'Investment Account'
+            ]"
+            required
+            :error="$errors->first('account_type')"
+            :selected="old('account_type')"
+          />
         </div>
         <x-form-error name="account_type" />
         

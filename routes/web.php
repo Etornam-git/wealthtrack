@@ -31,7 +31,9 @@ Route::middleware('auth')->group(function (){
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'index'])->name('customer.profile');
-
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [UserController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [UserController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('transactions', TransactionController::class);
     
@@ -43,7 +45,7 @@ Route::middleware('auth')->group(function (){
     
     // Budget Routes
     Route::resource('budgets',BudgetController::class);
-    Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
+    // Route::get('/budgets/{budget}/track', [BudgetController::class, 'track'])->name('budgets.track');
 
     //Reviews
     Route::get('/leave-a-review', [UserController::class, 'review']);

@@ -15,36 +15,28 @@
       </div>
       <x-form-error name="amount" />
 
-      <div>
-        <x-form-label for="account_id">Select Account</x-form-label>
-        <select name="account_id" id="account_id" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-          <option value="">Select Account</option>
-          @foreach ($accounts as $account)
-            <option value="{{ $account->id }}">{{ $account->account_number }} (Balance: ₵{{ number_format($account->balance, 2) }})</option>
-          @endforeach
-        </select>
-      </div>
-      <x-form-error name="account_id" />
+      <x-form-select
+        name="account_id"
+        label="Account"
+        :options="$accounts->pluck('name', 'id')"
+        required
+        :error="$errors->first('account_id')"
+      />
 
-      <div>
-        <x-form-label for="budget_id">Budget Assignment(optional):</x-form-label>
-        <select name="budget_id" id="budget_id"  class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-          <option value="">Select Budget Assignment</option>
-          @foreach ($budgets as $budget)
-            <option value="{{ $budget->id }}">{{ $budget->category }} (Limit: ₵{{ number_format($budget->amount, 2) }})</option>
-          @endforeach
-        </select>
-      </div>
-      <x-form-error name="budget_id" />
+      <x-form-select
+        name="budget_id"
+        label="Budget (Optional)"
+        :options="$budgets->pluck('category', 'id')"
+        :error="$errors->first('budget_id')"
+      />
 
-      <div>
-        <select name="transaction_type" id="transaction_type" required>
-          <option value="">Select Transaction Type</option>
-          <option name="deposit" value="deposit">Deposit</option>
-          <option name="withdrawal" value="withdrawal">Withdrawal</option>
-        </select>
-      </div>
-      <x-form-error name="transaction_type" />
+      <x-form-select
+        name="transaction_type"
+        label="Transaction Type"
+        :options="['deposit' => 'Deposit', 'withdrawal' => 'Withdrawal']"
+        required
+        :error="$errors->first('transaction_type')"
+      />
 
       <div>
         <x-form-label for="description">Description <small>Advisable for tracking expenses<small></x-form-label>

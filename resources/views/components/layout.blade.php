@@ -49,7 +49,6 @@
 
         @guest
           <x-nav-link href="/" :active="request()->is('home')">Home</x-nav-link>
-          <x-nav-link href="/trends" :active="request()->is('trends')">Finance Trends</x-nav-link>
           <x-nav-link href="/login">Login</x-nav-link>
           <x-nav-link href="/register">Register</x-nav-link>
         @endguest

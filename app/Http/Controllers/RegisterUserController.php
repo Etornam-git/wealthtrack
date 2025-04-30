@@ -33,13 +33,14 @@ class RegisterUserController extends Controller
         $new = request()->validate([
             'first_name' => ['required', 'string', 'min:3','max:255'],
             'last_name' => ['required', 'string', 'min:3','max:255'],
+            'phone' => ['required', 'max:15','string'],
+            'location' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['required', 'string', 'confirmed']
         ]);
         
         $user = User::create($new);
 
-        
         
         Auth::login($user);
 
@@ -72,7 +73,7 @@ class RegisterUserController extends Controller
         $update = request()->validate([
             'first_name' => ['required', 'string', 'min:3','max:255'],
             'last_name' => ['required', 'string', 'min:3','max:255'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'password' => ['required', 'string']
         ]);
     
