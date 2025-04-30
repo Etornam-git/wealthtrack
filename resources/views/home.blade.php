@@ -12,7 +12,7 @@
       <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8">
         Track your expenses, create budgets, and build a strong financial foundation.
       </p>
-      <a href="#features" class="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-indigo-500 transition duration-300 ease-in-out shadow-lg">
+      <a href="/register" class="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-indigo-500 transition duration-300 ease-in-out shadow-lg">
         Get Started
       </a>
     </div>
