@@ -14,9 +14,9 @@
         <a href="/accounts/create" 
            class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
           + New Account
-        </a>
-      </div>
+      </a>
     </div>
+  </div>
   </nav>
 
   <!-- Header Section -->
@@ -31,7 +31,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     @if($accounts->count())
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach($accounts as $account)
+      @foreach($accounts as $account)
           <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <!-- Card Header -->
             <div class="relative">
@@ -56,8 +56,8 @@
                   <span>Account Holder:</span>
                   <span class="font-medium">{{ $account->first_name }}</span>
                 </div>
-              </div>
-            </div>
+        </div>
+        </div>
 
             <!-- Action Buttons -->
             <div class="p-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700">
@@ -86,8 +86,8 @@
                 </form>
               </div>
             </div>
-          </div>
-        @endforeach
+        </div>
+      @endforeach
       </div>
     @else
       <div class="text-center py-10">

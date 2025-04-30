@@ -26,9 +26,9 @@ class Account extends Model
         'balance',
         'password',
         'email',
-        'user_id',
+        'user_id', 
     ];
-
+   
     public static function generateAccountNumber()
     {
         return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
