@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Savings extends Model
 {
     /** @use HasFactory<\Database\Factories\SavingsFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'user_id',
@@ -33,7 +34,6 @@ class Savings extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function account(){
         return $this->belongsTo(Account::class);
     }
@@ -50,5 +50,4 @@ class Savings extends Model
         if ($this->desiredAmount == 0) return 0;
         return ($this->savedAmount / $this->desiredAmount) * 100;
     }
-
 }

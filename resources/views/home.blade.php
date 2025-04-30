@@ -62,6 +62,57 @@
     </div>
   </section>
 
+  <!-- How It Works Section -->
+  <section class="py-16 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 animate-fadeInUp">
+        How It Works
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Step 1 -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 transform hover:scale-105 transition duration-300 animate-fadeInUp delay-200">
+          <div class="flex items-center justify-center w-12 h-12 bg-indigo-600 text-white rounded-full mb-4 mx-auto">
+            <span class="text-xl font-bold">1</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-center">Create Account</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-center">
+            Sign up and create your personal account to get started with WealthTrack.
+          </p>
+        </div>
+        <!-- Step 2 -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 transform hover:scale-105 transition duration-300 animate-fadeInUp delay-300">
+          <div class="flex items-center justify-center w-12 h-12 bg-indigo-600 text-white rounded-full mb-4 mx-auto">
+            <span class="text-xl font-bold">2</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-center">Set Up Accounts</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-center">
+            Add your financial accounts and set up your initial budget categories.
+          </p>
+        </div>
+        <!-- Step 3 -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 transform hover:scale-105 transition duration-300 animate-fadeInUp delay-400">
+          <div class="flex items-center justify-center w-12 h-12 bg-indigo-600 text-white rounded-full mb-4 mx-auto">
+            <span class="text-xl font-bold">3</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-center">Track & Analyze</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-center">
+            Monitor your spending, track your savings, and analyze your financial patterns.
+          </p>
+        </div>
+        <!-- Step 4 -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg p-6 transform hover:scale-105 transition duration-300 animate-fadeInUp delay-500">
+          <div class="flex items-center justify-center w-12 h-12 bg-indigo-600 text-white rounded-full mb-4 mx-auto">
+            <span class="text-xl font-bold">4</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 text-center">Achieve Goals</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-center">
+            Use insights to make better financial decisions and reach your financial goals.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Recent Reviews Section -->
     <section class="py-16 bg-white dark:bg-gray-900">
       <div class="max-w-7xl mx-auto px-6">

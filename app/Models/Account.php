@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Account extends Model
 {
     /** @use HasFactory<\Database\Factories\AccountFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids;
     
     protected $casts = [
         'balance' => 'decimal:2',
@@ -25,12 +26,9 @@ class Account extends Model
         'balance',
         'password',
         'email',
-        'user_id', 
+        'user_id',
     ];
 
-    
-
-   
     public static function generateAccountNumber()
     {
         return 'ACC' .'-'. strtoupper(Str::random(3)) . rand(10000, 99999);
@@ -51,5 +49,4 @@ class Account extends Model
     public function savings(){
         return $this->hasMany(Savings::class);
     }
-
 }
