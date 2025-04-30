@@ -71,20 +71,36 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           @foreach ($reviews as $review)
             <!-- Review Card -->
-            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6 animate-fadeInUp delay-200">
-              <p class="text-gray-700 dark:text-gray-300 italic mb-4">
-                “{{ $review->review }}”
-              </p>
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6 animate-fadeInUp delay-200 flex flex-col min-h-[200px] hover:shadow-lg transition-shadow duration-300">
+              <div class="flex-grow">
+                <div class="flex items-start mb-4">
+                  <div class="flex-shrink-0 mt-1">
+                    <svg class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <p class="text-gray-700 dark:text-gray-300 italic ml-2 break-words">
+                    "{{ $review->review }}"
+                  </p>
+                </div>
+              </div>
+              <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex justify-between items-center">
-                <div class="text-left">
-                  <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Rating: {{ $review->user->rating }}</span>
+                  <div class="text-left">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      Rating: 
+                      <span class="text-indigo-600 dark:text-indigo-400">
+                        {{ $review->rating ?? 'N/A' }}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      – {{ $review->user->first_name }} {{ $review->user->last_name }}
+                    </span>
+                  </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                  – {{ $review->user->last_name }} {{ $review->user->first_name }}
-                  </span>
-                </div>
-                </div>
+              </div>
             </div>
           @endforeach
         </div>
