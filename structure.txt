@@ -1,0 +1,64 @@
+WealthTrack/
+├── app/                           # Laravel application core
+│   ├── Http/                     # HTTP layer
+│   │   ├── Controllers/         # Application controllers
+│   │   └── Middleware/         # HTTP middleware
+│   ├── Models/                  # Eloquent models
+│   ├── Policies/               # Authorization policies
+│   ├── Providers/              # Service providers
+│   └── View/                   # View related components
+├── bootstrap/                   # Application bootstrap files
+│   ├── app.php
+│   └── cache/
+├── config/                      # Configuration files
+│   ├── app.php
+│   ├── database.php
+│   └── services.php
+├── database/                    # Database files
+│   ├── migrations/            # Database migrations
+│   ├── seeders/              # Database seeders
+│   ├── factories/            # Model factories
+│   └── database.sqlite       # SQLite database file
+├── public/                      # Publicly accessible files
+│   ├── build/                  # Vite build output
+│   │   ├── assets/            # Compiled assets
+│   │   │   ├── app-CwmbRFB9.js
+│   │   │   ├── app-CAfKU9oR.css
+│   │   │   ├── figtree-latin-*.woff2
+│   │   │   ├── figtree-latin-*.woff
+│   │   │   ├── figtree-latin-ext-*.woff2
+│   │   │   └── figtree-latin-ext-*.woff
+│   │   └── manifest.json
+│   ├── index.php              # Main entry point
+│   ├── robots.txt             # Robots exclusion rules
+│   ├── favicon.ico            # Site favicon
+│   └── .htaccess              # Apache configuration
+├── resources/                   # Frontend resources
+│   ├── css/                   # CSS files
+│   ├── js/                    # JavaScript files
+│   └── views/                 # Blade view templates
+├── routes/                      # Application routes
+│   ├── api.php               # API routes
+│   └── web.php               # Web routes
+├── storage/                     # Application storage
+│   ├── app/                  # Application storage
+│   ├── framework/            # Framework storage
+│   └── logs/                # Application logs
+├── tests/                      # Test files
+│   ├── Feature/             # Feature tests
+│   └── Unit/               # Unit tests
+├── vendor/                     # Composer dependencies
+├── node_modules/               # NPM dependencies
+├── .editorconfig              # Editor configuration
+├── .gitattributes             # Git attributes
+├── .gitignore                 # Git ignore rules
+├── artisan                    # Laravel command line tool
+├── composer.json              # PHP dependencies
+├── composer.lock              # PHP dependency lock
+├── package.json               # NPM dependencies
+├── package-lock.json          # NPM dependency lock
+├── phpunit.xml               # PHPUnit configuration
+├── postcss.config.js         # PostCSS configuration
+├── tailwind.config.js        # Tailwind CSS configuration
+├── vite.config.js            # Vite configuration
+└── README.md                 # Project documentation
