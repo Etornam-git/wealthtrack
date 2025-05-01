@@ -70,7 +70,7 @@
                         <td class="px-4 py-2 text-gray-800 dark:text-gray-300">{{ $transaction->created_at }}</td>
                         <td class="px-4 py-2 text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
                         <td class="px-4 py-2 text-gray-800 dark:text-gray-300">
-                          <a href="{{ '/accounts/' . $account->id }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">
+                          <a href="{{ route('accounts.show', $account->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">
                             {{ $account->account_number }}
                           </a>
                         </td>

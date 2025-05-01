@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('account_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('budget_id')->nullable()->constrained()->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
-            $table->string('type');
+            $table->string('transaction_type');
             $table->string('description');
-            $table->string('category');
-            $table->dateTime('date');
             $table->timestamps();
         });
     }

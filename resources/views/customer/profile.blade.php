@@ -47,9 +47,12 @@
         {{-- REVIEW FORM --}}
         <section aria-labelledby="leave-review" class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <h2 id="leave-review" class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Leave a Review</h2>
-          <form action="{{ route('leave-a-review.review') }}" method="POST" class="space-y-4">
+          <form action="{{ route('profile.review.store') }}" method="POST" class="space-y-4">
             @csrf
-            <label for="review" class="sr-only">Your review</label>
+            <input type="hidden" name="rating" value="0">
+            <div class="space-y-2">
+              <label for="review" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Your Review</label>
+              <div class="relative">
             <textarea
               id="review"
               name="review"
@@ -57,7 +60,15 @@
               required
               placeholder="What do you think of WealthTrack?"
               class="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-            ></textarea>
+                >{{ old('review') }}</textarea>
+                <div class="absolute bottom-2 right-2 text-xs text-gray-500 dark:text-gray-400">
+                  <span id="char-count">0</span>/1000
+                </div>
+              </div>
+              @error('review')
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+              @enderror
+            </div>
             <button
               type="submit"
               class="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
@@ -66,6 +77,29 @@
             </button>
           </form>
         </section>
+
+        @push('scripts')
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const reviewTextarea = document.getElementById('review');
+            const charCount = document.getElementById('char-count');
+            
+            // Character count for review text
+            reviewTextarea.addEventListener('input', function() {
+              const currentLength = this.value.length;
+              charCount.textContent = currentLength;
+              
+              if (currentLength > 1000) {
+                this.value = this.value.substring(0, 1000);
+                charCount.textContent = 1000;
+              }
+            });
+
+            // Initialize character count
+            charCount.textContent = reviewTextarea.value.length;
+          });
+        </script>
+        @endpush
 
         {{-- RESOURCES --}}
         <section aria-labelledby="resources" class="space-y-4">

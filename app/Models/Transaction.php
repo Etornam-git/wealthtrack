@@ -22,6 +22,8 @@ class Transaction extends Model
         'transaction_type',
         'description',
         'budget_id',
+        'user_id',
+        'date',
     ];
 
     // protected $guarded = [];
@@ -29,6 +31,8 @@ class Transaction extends Model
     protected $casts = [
         'amount' => 'decimal:2',
         'date' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**

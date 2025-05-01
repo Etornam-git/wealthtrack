@@ -1,7 +1,6 @@
 <x-layout>
   <section class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 py-16">
       <div class="w-full max-w-3xl bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-xl">
-          {{-- Heading --}}
           <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white">
               Create an Account
           </h2>

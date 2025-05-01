@@ -3,20 +3,30 @@
     Savings Plan Details
   </x-slot:pagename>
 
+  <div class="max-w-4xl mx-auto p-8">
+    <!-- Back Navigation -->
+    <div class="mb-6">
+      <a href="{{ route('savings.index') }}" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to Savings
+      </a>
+    </div>
+
   <!-- Modal -->
-  <div id="depositModal" class="fixed inset-0  bg-opacity-10 backdrop-blur-sm overflow-y-auto h-full w-full hidden target:flex items-center justify-center z-50 p-4 sm:p-6 md:p-8">
+  <div id="depositModal" class="fixed inset-0 bg-opacity-10 backdrop-blur-sm overflow-y-auto h-full w-full hidden target:flex items-center justify-center z-50 p-4 sm:p-6 md:p-8">
     <div class="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full mx-auto transform transition-all duration-300 scale-95 target:scale-100">
       <div class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
         <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Make a Deposit</h3>
-        <a href="#" 
-           class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 p-2">
+          <a href="#" class="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white px-3 sm:px-4 py-2 rounded-lg shadow-md transition text-sm sm:text-base">
           <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </a>
       </div>
       
-      <form action="{{ route('savings.deposit', $savings->id) }}" method="POST" class="p-4 sm:p-6">
+        <form action="{{ route('savings.deposit.process', $savings->id) }}" method="POST" class="p-4 sm:p-6">
         @csrf
         <div class="space-y-4">
           <div>
@@ -218,6 +228,7 @@
               Delete Plan
             </button>
           </form>
+          </div>
         </div>
       </div>
     </div>

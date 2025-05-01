@@ -16,6 +16,7 @@ class Account extends Model
     protected $casts = [
         'balance' => 'decimal:2',
         'password' => 'hashed',
+        'id' => 'string', // Cast the UUID to string
     ];
 
     protected $fillable = [
@@ -28,6 +29,16 @@ class Account extends Model
         'email',
         'user_id', 
     ];
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
    
     public static function generateAccountNumber()
     {
@@ -48,5 +59,15 @@ class Account extends Model
 
     public function savings(){
         return $this->hasMany(Savings::class);
+    }
+
+    public function updateBalance($amount, $type)
+    {
+        if ($type === 'deposit') {
+            $this->balance += $amount;
+        } else {
+            $this->balance -= $amount;
+        }
+        return $this->save();
     }
 }

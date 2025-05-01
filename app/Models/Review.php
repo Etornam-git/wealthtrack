@@ -12,12 +12,17 @@ class Review extends Model
     use HasFactory, HasUuids;
 
     protected $fillable = [
-        'review',
-        'rating',
         'user_id',
+        'review',
+        'rating'
     ];
 
-    public function user(){
+    protected $casts = [
+        'rating' => 'integer'
+    ];
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

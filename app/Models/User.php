@@ -77,7 +77,8 @@ class User extends Authenticatable
         return $this->hasMany(Savings::class);
     }
 
-    public function review(){
-        return $this->hasMany(Review::class);
+    public function review()
+    {
+        return $this->hasOne(Review::class);
     }
 }

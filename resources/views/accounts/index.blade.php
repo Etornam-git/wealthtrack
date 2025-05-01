@@ -8,12 +8,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16">
         <a href="/dashboard" 
-           class="text-gray-800 dark:text-gray-100 font-bold text-lg hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded transition">
-          ← Dashboard
+           class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to Dashboard
         </a>
         <a href="/accounts/create" 
-           class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
-          + New Account
+           class="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg shadow-md transition focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          New Account
       </a>
     </div>
   </div>
@@ -62,7 +68,7 @@
             <!-- Action Buttons -->
             <div class="p-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700">
               <div class="grid grid-cols-2 gap-2">
-                <a href="{{ route('accounts.show', $account->uuid) }}" 
+                <a href="{{ route('accounts.show', $account->id) }}" 
                    class="flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                    title="View Details">
                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,7 +77,7 @@
                    </svg>
                    View
                 </a>
-                <form action="{{ route('accounts.destroy', $account->uuid) }}" method="POST" class="inline">
+                <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" class="inline">
                   @csrf
                   @method('DELETE')
                   <button type="submit" 
