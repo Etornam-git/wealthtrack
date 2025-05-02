@@ -38,6 +38,7 @@
                 <!-- Location -->
                 <div class="md:col-span-2">
                     <x-form-select
+                        id="location"
                         name="location"
                         label="Location"
                         :options="[
@@ -118,3 +119,7 @@
         </div>
     </div>
 </x-layout>
+
+@push('scripts')
+<script src="{{ asset('js/country-phone.js') }}"></script>
+@endpush

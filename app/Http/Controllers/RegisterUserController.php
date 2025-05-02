@@ -30,23 +30,25 @@ class RegisterUserController extends Controller
      */
     public function store()
     {
-        $new = request()->validate([
-            'first_name' => ['required', 'string', 'min:3','max:255'],
-            'last_name' => ['required', 'string', 'min:3','max:255'],
-            'phone' => ['required', 'max:15','string'],
-            'location' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string', 'confirmed']
-        ]);
-        
-        $user = User::create($new);
+        try {
+            $new = request()->validate([
+                'first_name' => ['required', 'string', 'min:3','max:255'],
+                'last_name' => ['required', 'string', 'min:3','max:255'],
+                'phone' => ['required', 'max:15','string'],
+                'location' => ['required', 'string'],
+                'email' => ['required', 'email', 'unique:users,email'],
+                'password' => ['required', 'string', 'confirmed']
+            ]);
+            
+            $user = User::create($new);
+            Auth::login($user);
 
-        
-        Auth::login($user);
-
-        return redirect('/dashboard');
-
-       
+            return redirect('/dashboard');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred during registration. Please try again.');
+        }
     }
 
     /**

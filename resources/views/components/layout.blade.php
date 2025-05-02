@@ -134,5 +134,8 @@
       });
     });
   </script>
+
+  <!-- Additional Scripts -->
+  @stack('scripts')
 </body>
 </html>
