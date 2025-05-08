@@ -9,6 +9,7 @@ use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -55,6 +56,7 @@ class TransactionController extends Controller
         // 1. Get the authenticated user and validate input
         $user = Auth::user();
         $validated = request()->validate([
+            'user_id' => ['required', 'exists:users,id'],
             'account_id' => ['required', 'exists:accounts,id'],
             'budget_id' => 'nullable|exists:budgets,id',
             'amount' => [
@@ -102,22 +104,37 @@ class TransactionController extends Controller
         }
 
         // 4. Update balance
-        if ($validated['transaction_type'] === 'deposit') {
-            $account->balance += $validated['amount'];
-        } else {
-            $account->balance -= $validated['amount'];
+        try {
+            DB::beginTransaction();
+
+            if (!$account->updateBalance($validated['amount'], $validated['transaction_type'])) {
+                throw new \Exception('Failed to update account balance');
         }
 
-        // 5. Save everything
-        try {
-            $account->save();
-            $account->transactions()->create($validated);
+            // Create the transaction
+            $transaction = $account->transactions()->create($validated);
+
+            if (!$transaction) {
+                throw new \Exception('Failed to create transaction');
+            }
+
+            DB::commit();
 
             return redirect()
                 ->route('transactions.index')
                 ->with('success', 'Transaction completed successfully!');
 
         } catch (\Exception $e) {
+            DB::rollBack();
+            
+            Log::error('Transaction failed', [
+                'error' => $e->getMessage(),
+                'user_id' => $user->id,
+                'account_id' => $account->id,
+                'amount' => $validated['amount'],
+                'transaction_type' => $validated['transaction_type']
+            ]);
+            
             return back()
                 ->withInput()
                 ->withErrors(['error' => 'Something went wrong. Please try again.']);

@@ -11,9 +11,9 @@ class UserAccountController extends Controller
 {
     public function index()
     {
-        $user=Auth::user();
+        $user = Auth::user();
         $accounts = $user->accounts;
-        return view('accounts.index', compact('accounts','user'));
+        return view('accounts.index', compact('accounts', 'user'));
     }
 
     public function create(Account $account)
@@ -23,17 +23,27 @@ class UserAccountController extends Controller
         if(!$user) {
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
         }
-        return view('accounts.create', ['account' => $account,'user' => $user]);
+        return view('accounts.create', ['account' => $account, 'user' => $user]);
     }
 
 
     public function show(Account $account)
     {
+        // Check if the account belongs to the authenticated user
+        if (Auth::id() !== $account->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('accounts.show', ['account' => $account]);
     }
 
     public function edit(Account $account)
     {
+        // Check if the account belongs to the authenticated user
+        if (Auth::id() !== $account->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('accounts.edit', ['account' => $account]);
     }
 
@@ -51,14 +61,13 @@ class UserAccountController extends Controller
         $validated['user_id'] = Auth::id(); 
         
         if(!$validated['user_id']) {
-            
             return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
         }
+
         Account::create($validated);
 
         return redirect()->route('accounts.index')->with('success', 'Account created successfully.');
     }
-
 
     public static function generateAccountNumber()
     {
@@ -67,9 +76,9 @@ class UserAccountController extends Controller
 
     public function update(Request $request, Account $account)
     {
-        $user = Auth::user();
-        if(!$user) {
-            return redirect()->back()->withErrors(['error' => 'You must be logged in to create an account.']);
+        // Check if the account belongs to the authenticated user
+        if (Auth::id() !== $account->user_id) {
+            abort(403, 'Unauthorized action.');
         }
         $validated = $request->validate([
             'first_name' => 'required|string|min:3',
@@ -80,16 +89,19 @@ class UserAccountController extends Controller
 
         $account->update($validated);
 
-        return redirect()->route('accounts.index')->with('success', 'Account created successfully.');
+        return redirect()->route('accounts.index')->with('success', 'Account updated successfully.');
     }
 
     public function destroy(Account $account)
     {
-        // $this->authorize('delete', $account);
+        // Check if the account belongs to the authenticated user
+        if (Auth::id() !== $account->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $account->delete();
 
-        return redirect('/accounts');
+        return redirect()->route('accounts.index')->with('success', 'Account deleted successfully.');
     }
 }
 

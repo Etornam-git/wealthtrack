@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\User;
-use App\Models\Account;
 
 return new class extends Migration
 {
@@ -14,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Account::class)->constrained()->cascadeOnDelete();
-            $table->decimal('amount', 15, 2);
-            $table->enum('transaction_type', ['deposit', 'withdrawal']);
-            $table->string('description')->nullable();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('account_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('budget_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->decimal('amount', 10, 2);
+            $table->string('transaction_type');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -30,4 +30,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('transactions');
     }
-};
+}; 

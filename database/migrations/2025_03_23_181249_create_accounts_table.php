@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('account_number')->unique();
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('password');
             $table->timestamps();
         });
-
     }
 
     /**

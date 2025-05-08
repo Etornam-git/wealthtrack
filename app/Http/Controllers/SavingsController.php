@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Savings;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SavingsController extends Controller
 {
@@ -139,7 +141,7 @@ class SavingsController extends Controller
             'regularity' => 'required|string|in:daily,weekly,biweekly,monthly,quarterly,yearly',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
-            'automatic' => 'required|boolean',
+            'automatic' => 'boolean',
             'description' => 'nullable|string|max:1000',
         ]);
 
@@ -159,47 +161,79 @@ class SavingsController extends Controller
     }
 
     //Deposit into the savings
-    public function deposit(Request $request, $id){
-        // verify authenticated user
-        $user = Auth::user();
 
-        //amount submitted via form
-        $deposit = $request->validate([
-            'amount' => 'required|numeric|gt:0',
+    public function showDepositForm(Savings $saving)
+    {
+        // Verify the savings plan belongs to the authenticated user
+        if (Auth::id() !== $saving->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('savings.deposit', compact('saving'));
+    }
+
+    public function processDeposit(Request $request, Savings $saving)
+    {
+        // Verify the savings plan belongs to the authenticated user
+        if (Auth::id() !== $saving->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validated = $request->validate([
+            'amount' => [
+                'required',
+                'numeric',
+                'gt:0',
+                'max:999999999.99',
+                'regex:/^\d+(\.\d{1,2})?$/' // only 2 decimal places
+            ],
+        ], [
+            'amount.max' => 'The amount cannot exceed 999,999,999.99',
+            'amount.regex' => 'The amount must have no more than 2 decimal places',
         ]);
 
-        //confirm  savins belongs to user, hence get the related accounts
-        
-        $savings = Savings::where('id', $id)->where('user_id',$user->id)->firstOrFail();
-        $account = $savings->account;
-        
-        //if automatic saving allowed....
-        if($savings->automatic && $account->balance >= $savings->amount_per_interval){
-            $account->balance -=  $savings->amount_per_interval;
-            $savings->savedAmount += $savings->amount_per_interval;
-            $savings->save();
-            $account->save();
-            return redirect()->route('savings.show', $savings->id)->with('success', 'Deposit successful.');
-            
+        $account = $saving->account;
+
+        // Check if account has sufficient balance
+        if ($account->balance < $validated['amount']) {
+            return back()->with('error', 'Insufficient balance in your account.');
         }
 
-        else if( $savings->savedAmount >= $savings->desiredAmount){
-            $savings->status = 'completed';
-            $savings->save();
-            return redirect()->route('savings.show', $savings->id)->with('success', 'Savings plan completed successfully.');
+        // Check if the deposit would exceed the desired amount
+        if (($saving->savedAmount + $validated['amount']) > $saving->desiredAmount) {
+            return back()->with('error', 'This deposit would exceed your target amount.');
         }
 
-        //else do the normal way
-        else {
-            if($account->balance < $deposit['amount']){
-                return back()->with('error', 'Insufficient balance.');
+        try {
+        DB::transaction(function () use ($account, $saving, $validated) {
+            $amount = $validated['amount'];
+            $account->balance -= $amount;
+            $saving->savedAmount += $amount;
+
+            if ($saving->savedAmount >= $saving->desiredAmount) {
+                $saving->status = 'completed';
             }
-            $amount = $deposit['amount'];
-            $account->balance = $account->balance - $amount;
-            $savings->savedAmount += $amount;
-            $savings->save();
-            $account->save();
-            return redirect()->route('savings.show', $savings->id)->with('success', 'Deposit successful.');
+
+                if (!$account->save() || !$saving->save()) {
+                    throw new \Exception('Failed to save account or savings plan');
+                }
+        });
+
+        return redirect()
+            ->route('savings.show', $saving->id)
+            ->with('success', 'Deposit successful.');
+
+        } catch (\Exception $e) {
+            Log::error('Savings deposit failed', [
+                'error' => $e->getMessage(),
+                'user_id' => Auth::id(),
+                'savings_id' => $saving->id,
+                'amount' => $validated['amount']
+            ]);
+            
+            return back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again.');
         }
     }
 

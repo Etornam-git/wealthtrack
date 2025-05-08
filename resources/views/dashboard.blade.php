@@ -3,121 +3,100 @@
     Dashboard
   </x-slot:pagename>
 
-  <div class="flex flex-col md:flex-row">
-    <!-- Sidebar -->
-    <aside class="w-full md:w-64 bg-gray-100 dark:bg-gray-800 p-6 space-y-6">
-      <div class="flex items-center">
-        <span class="ml-3 text-2xl font-bold text-indigo-600 dark:text-indigo-400">WealthTrack</span>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Dashboard</h1>
+        <a href="/profile" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+          Profile
+        </a>
       </div>
-      <nav>
-        <ul class="space-y-4">
-          @foreach ([
-            'accounts' => 'Accounts', 
-            'budgets' => 'Budgets', 
-            'savings' => 'Savings',
-            'investments' => 'Investments', 
-            // 'trends' => 'Trends',
-            // 'settings' => 'Settings'
-          ] as $route => $label)
-            <li>
-              <a href="/{{ $route }}" class="block px-4 py-2 rounded text-gray-800 dark:text-gray-100 hover:bg-indigo-600 hover:text-white transition">
-                {{ $label }}
-              </a>
-            </li>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Sidebar -->
+      <aside class="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Navigation</h2>
+        <nav>
+          <ul class="space-y-4">
+            @foreach (['accounts' => 'Accounts', 'budgets' => 'Budgets', 'savings' => 'Savings'] as $route => $label)
+              <li>
+                <a href="/{{ $route }}" class="block px-4 py-2 rounded text-gray-800 dark:text-gray-100 hover:bg-indigo-600 hover:text-white transition">
+                  {{ $label }}
+                </a>
+              </li>
+            @endforeach
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="col-span-3">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          @foreach ([['Total Expenses', $totalExpenses], ['Budget Utilization', 'Budgets: ' . $budget->count()], ['Savings', $totalSavings]] as [$title, $value])
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">{{ $title }}</h3>
+              <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{{ $value }}</p>
+            </div>
           @endforeach
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Main Dashboard Content -->
-    <div class="flex-1 p-6">
-      <!-- Top Summary Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        @foreach ([
-          ['Total Expenses', $transactions->sum('amount')],
-          ['Budget Utilization','Budgets: '. $budget->count()],
-          ['Investments', '₵12,500'],
-          ['Savings', 'Total Savings'],
-        ] as [$title, $value])
-          <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
-            <h3 class="text-lg font-bold text-gray-400 dark:text-gray-100 mb-2">{{ $title }}</h3>
-            <p class="text-2xl font-bold text-indigo-400">{{ $value }}</p>
-          </div>
-        @endforeach
-      </div>
-
-      <!-- Chart / Graph Placeholder -->
-      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md mb-8 animate-fadeInUp">
-        <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Currency converter</h3>
-        <div class="bg-gray-200 dark:bg-gray-600 h-auto rounded-md grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-4">
-          <div class="relative mt-1 block w-full">
-            <select name="currency_from" id="currency_from" class="w-full appearance-none rounded-md border border-gray-300 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-10">
-              <option value="">Select Currency</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-            </select>
-          </div>
-          <div class="relative mt-1 block w-full">
-            <select name="currency_to" id="currency_to" class="w-full appearance-none rounded-md border border-gray-300 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 pr-10">
-              <option value="">Select Currency</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-            </select>
-          </div>
         </div>
-      </div> 
 
-      <!-- Recent Transactions Table -->
-      <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md animate-fadeInUp">
-        <div class="space-y-6">
-          <div class="flex items-center justify-between">
+        <!-- Recent Transactions -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">Recent Transactions</h3>
-            <a href="/transactions" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+            <a href="/transactions" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
               View All
             </a>
           </div>
+
+          @if ($accounts->count() > 0)
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-100 dark:bg-gray-700">
+                    <th class="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Date</th>
+                    <th class="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Description</th>
+                    <th class="px-4 py-2 text-left font-medium text-gray-600 dark:text-gray-300">Account</th>
+                    <th class="px-4 py-2 text-right font-medium text-gray-600 dark:text-gray-300">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($accounts as $account)
+                    @foreach ($account->transactions->take(3) as $transaction)
+                      <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td class="px-4 py-2 text-gray-800 dark:text-gray-300">{{ $transaction->created_at }}</td>
+                        <td class="px-4 py-2 text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
+                        <td class="px-4 py-2 text-gray-800 dark:text-gray-300">
+                          <a href="{{ route('accounts.show', $account->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">
+                            {{ $account->account_number }}
+                          </a>
+                        </td>
+                        <td class="px-4 py-2 text-right text-gray-800 dark:text-gray-300">₵{{ number_format($transaction->amount, 2) }}</td>
+                      </tr>
+                    @endforeach
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+          @else
+            <p class="text-center text-gray-500 dark:text-gray-400">No recent transactions available.</p>
+          @endif
         </div>
 
-        @if ($accounts->count() > 0)
-
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-              <thead>
-                <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Description</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Account</th>
-                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
-                @foreach ($accounts as $account)
-                  @foreach ($account->transactions->take(3) as $transaction)
-                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-600">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $transaction->created_at }}</td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">{{ $transaction->description }}</td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300">
-                        <a href="{{ '/accounts/'.$account->id }}" class="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 underline">
-                        {{ $account->account_number }}
-                        </a>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 text-right">₵{{ number_format($transaction->amount, 2) }}</td>
-                    </tr>
-                    @endforeach
-                @endforeach
-                
-              </tbody>
-            </table>
-          </div>
-          
-        @else
-          <div class="text-center py-4">
-            <p class="text-gray-500 dark:text-gray-400">No recent transactions available.</p>
-          </div>
-        @endif
-      </div>
+        <!-- Add New Transaction -->
+        <div class="mt-6 flex justify-end">
+          @if ($accounts->count() > 0)
+            <a href="/transactions/create" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition text-sm">
+              Add New Transaction
+            </a>
+          @else
+            <p class="text-gray-500 dark:text-gray-400">No accounts available. Please create an account to add transactions.</p>
+          @endif
+        </div>
+      </main>
     </div>
   </div>
 </x-layout>

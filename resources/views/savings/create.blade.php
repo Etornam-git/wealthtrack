@@ -1,178 +1,177 @@
 <x-layout>
-    <x-slot:pagename>
-      Create Savings Plan
-    </x-slot:pagename>
-  
-    <div class="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-8 mt-10 rounded-lg shadow-md">
-      <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Create New Savings Plan</h2>
+    <x-slot:pagename>Create New Savings Plan</x-slot:pagename>
 
-      @if(session('error'))
-          <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded relative" role="alert">
-              <strong class="font-bold">Error!</strong>
-              <span class="block sm:inline">{{ session('error') }}</span>
-          </div>
-      @endif
+    <div class="max-w-2xl mx-auto p-8">
+        <!-- Back Navigation -->
+        <div class="mb-6">
+            <a href="{{ route('savings.index') }}" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Savings
+            </a>
+        </div>
 
-      @if(session('success'))
-          <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded relative" role="alert">
-              <strong class="font-bold">Success!</strong>
-              <span class="block sm:inline">{{ session('success') }}</span>
-          </div>
-      @endif
-  
-      <form action="{{ route('savings.store') }}" method="POST" class="space-y-6">
-        @csrf
-        <div>
-          <x-form-label for="planName">Plan Name</x-form-label>
-          <x-form-input 
-            type="text" 
-            name="planName" 
-            id="planName" 
-            value="{{ old('planName') }}" 
-            required 
-            maxlength="255"
-            class="@error('planName') border-red-500 @enderror"
-          />
-          <x-form-error name="planName"></x-form-error>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Create New Savings Plan</h2>
+
+            @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800 dark:text-red-200">There were errors with your submission</h3>
+                            <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                                <ul class="list-disc pl-5 space-y-1">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <form action="{{ route('savings.store') }}" method="POST" class="space-y-6">
+                @csrf
+                
+                <div>
+                    <x-form-label for="planName">Plan Name</x-form-label>
+                    <x-form-input type="text" name="planName" id="planName" required 
+                        value="{{ old('planName') }}" />
+                    <x-form-error name="planName" />
+                </div>
+
+                <x-form-select
+                    name="account_id"
+                    label="Select Account"
+                    :options="$accounts->mapWithKeys(function($account) {
+                        return [$account->id => $account->first_name . ' - ' . $account->account_number];
+                    })"
+                    required
+                    :error="$errors->first('account_id')"
+                />
+
+                <div>
+                    <x-form-label for="desiredAmount">Target Amount (₵)</x-form-label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">₵</span>
+                        </div>
+                        <x-form-input 
+                            type="number" 
+                            name="desiredAmount" 
+                            id="desiredAmount" 
+                            step="0.01" 
+                            min="0.01"
+                            max="999999999.99"
+                            required 
+                            value="{{ old('desiredAmount') }}" 
+                            class="pl-7" 
+                            placeholder="Enter target amount"
+                        />
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
+                        Maximum amount: ₵999,999,999.99
+                    </p>
+                    <x-form-error name="desiredAmount" />
+                </div>
+
+                <x-form-select
+                    name="regularity"
+                    label="Saving Regularity"
+                    :options="['daily' => 'Daily', 'weekly' => 'Weekly', 'biweekly' => 'Biweekly', 'monthly' => 'Monthly', 'quarterly' => 'Quarterly', 'yearly' => 'Yearly']"
+                    required
+                    :error="$errors->first('regularity')"
+                    :selected="old('regularity')"
+                />
+
+                <div>
+                    <x-form-label for="amount_per_interval">Amount per Interval (₵)</x-form-label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">₵</span>
+                        </div>
+                        <x-form-input 
+                            type="number" 
+                            name="amount_per_interval" 
+                            id="amount_per_interval" 
+                            step="0.01" 
+                            min="0.01"
+                            max="999999999.99"
+                            value="{{ old('amount_per_interval') }}" 
+                            class="pl-7" 
+                            placeholder="Enter amount per interval"
+                        />
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
+                        Leave empty for manual savings or enter amount for scheduled savings
+                    </p>
+                    <x-form-error name="amount_per_interval" />
+                </div>
+
+                <div>
+                    <x-form-label for="start_date">Start Date</x-form-label>
+                    <x-form-input 
+                        type="date" 
+                        name="start_date" 
+                        id="start_date" 
+                        required 
+                        value="{{ old('start_date', date('Y-m-d')) }}" 
+                        min="{{ date('Y-m-d') }}"
+                    />
+                    <x-form-error name="start_date" />
+                </div>
+
+                <div>
+                    <x-form-label for="end_date">End Date</x-form-label>
+                    <x-form-input 
+                        type="date" 
+                        name="end_date" 
+                        id="end_date" 
+                        required 
+                        value="{{ old('end_date') }}" 
+                        min="{{ date('Y-m-d', strtotime('+1 day')) }}"
+                    />
+                    <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
+                        Must be after start date
+                    </p>
+                    <x-form-error name="end_date" />
+                </div>
+
+                <div class="flex items-center">
+                    <x-form-input 
+                        type="checkbox" 
+                        name="automatic" 
+                        id="automatic" 
+                        value="1" 
+                        {{ old('automatic') ? 'checked' : '' }} 
+                    />
+                    <x-form-label for="automatic" class="ml-2">Enable Automatic Savings</x-form-label>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
+                    When enabled, the system will automatically deduct the specified amount from your account at the chosen interval
+                </p>
+
+                <div>
+                    <x-form-label for="description">Description (Optional)</x-form-label>
+                    <x-form-textarea name="description" id="description" rows="3"
+                        value="{{ old('description') }}" />
+                    <x-form-error name="description" />
+                </div>
+
+                <div class="flex justify-end">
+                    <x-form-button type="submit">
+                        Create Savings Plan
+                    </x-form-button>
+                </div>
+            </form>
         </div>
-  
-        <div>
-          <x-form-label for="account_id">Select Account</x-form-label>
-          <select 
-            name="account_id"       
-            id="account_id" 
-            required
-            class="w-full rounded-md border-gray-300 @error('account_id') border-red-500 @enderror"
-          >
-            <option value="">Choose an account</option>
-            @foreach ($accounts as $account)
-              <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                {{ $account->account_number }} (Balance: ₵{{ number_format($account->balance, 2) }})
-              </option>
-            @endforeach
-          </select>
-          <x-form-error name="account_id"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="desiredAmount">Target Amount (₵)</x-form-label>
-          <x-form-input 
-            type="number" 
-            name="desiredAmount" 
-            id="desiredAmount" 
-            step="0.01" 
-            min="0.01"
-            max="999999999.99"
-            value="{{ old('desiredAmount') }}" 
-            required 
-            class="@error('desiredAmount') border-red-500 @enderror"
-          />
-          <x-form-error name="desiredAmount"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="regularity">Saving Regularity</x-form-label>
-          <select 
-            name="regularity" 
-            id="regularity" 
-            required
-            class="w-full rounded-md border-gray-300 @error('regularity') border-red-500 @enderror"
-          >
-            <option value="">Select interval</option>
-            <option value="daily" {{ old('regularity') == 'daily' ? 'selected' : '' }}>Daily</option>
-            <option value="weekly" {{ old('regularity') == 'weekly' ? 'selected' : '' }}>Weekly</option>
-            <option value="biweekly" {{ old('regularity') == 'biweekly' ? 'selected' : '' }}>Biweekly</option>
-            <option value="monthly" {{ old('regularity') == 'monthly' ? 'selected' : '' }}>Monthly</option>
-            <option value="quarterly" {{ old('regularity') == 'quarterly' ? 'selected' : '' }}>Quarterly</option>
-            <option value="yearly" {{ old('regularity') == 'yearly' ? 'selected' : '' }}>Yearly</option>
-          </select>
-          <x-form-error name="regularity"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="amount_per_interval">Amount Per Interval (₵)</x-form-label>
-          <x-form-input 
-            type="number" 
-            step="0.01" 
-            name="amount_per_interval" 
-            id="amount_per_interval" 
-            min="0.01"
-            max="999999999.99"
-            value="{{ old('amount_per_interval') }}"
-            class="@error('amount_per_interval') border-red-500 @enderror"
-          />
-          <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
-            Leave empty for manual savings or enter amount for scheduled savings
-          </p>
-          <x-form-error name="amount_per_interval"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="start_date">Start Date</x-form-label>
-          <x-form-input 
-            type="date" 
-            name="start_date" 
-            id="start_date" 
-            value="{{ old('start_date', date('Y-m-d')) }}" 
-            required 
-            class="@error('start_date') border-red-500 @enderror"
-          />
-          <x-form-error name="start_date"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="end_date">End Date</x-form-label>
-          <x-form-input 
-            type="date" 
-            name="end_date" 
-            id="end_date" 
-            value="{{ old('end_date', date('Y-m-d', strtotime('+1 day'))) }}" 
-            required 
-            class="@error('end_date') border-red-500 @enderror"
-          />
-          <x-form-error name="end_date"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="automatic">Automatic Saving</x-form-label>
-          <label class="inline-flex items-center space-x-2">
-            <input 
-              type="checkbox" 
-              name="automatic" 
-              id="automatic" 
-              value="1" 
-              {{ old('automatic') ? 'checked' : '' }}
-              class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-            >
-            <span class="text-gray-700 dark:text-gray-300">Enable automatic savings</span>
-          </label>
-          <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
-            When enabled, the specified amount will be automatically saved at the chosen interval
-          </p>
-          <x-form-error name="automatic"></x-form-error>
-        </div>
-  
-        <div>
-          <x-form-label for="description">Description (optional)</x-form-label>
-          <textarea 
-            name="description" 
-            id="description" 
-            rows="4" 
-            maxlength="1000"
-            class="w-full rounded-md border-gray-300 dark:bg-gray-700 dark:text-gray-100 @error('description') border-red-500 @enderror"
-          >{{ old('description') }}</textarea>
-          <p class="text-gray-600 dark:text-gray-400 text-xs mt-1">
-            Maximum 1000 characters
-          </p>
-          <x-form-error name="description"></x-form-error>
-        </div>
-  
-        <div class="flex justify-end">
-          <x-form-button type="submit">
-            Create Savings Plan
-          </x-form-button>
-        </div>
-      </form>
     </div>
-  </x-layout>
+</x-layout>
   

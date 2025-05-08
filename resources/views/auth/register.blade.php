@@ -1,77 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - WealthTrack</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-gray-100">
-  <div class="min-h-screen flex items-center justify-center px-4">
-    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
-      <h2 class="text-3xl font-extrabold text-gray-900 text-center">Create an Account</h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        Sign up to get started with WealthTrack
-      </p>
-      <form method="POST" action="/register" class="mt-8 space-y-6 ">
-        @csrf
-        <div class="rounded-md shadow-sm -space-y-px py-15">
-          <!-- Name Field -->
-          <div>
-            <x-form-label for="first_name"></x-form-label>
-            <x-form-input id="first_name" name="first_name" type="text" required autofocus  placeholder="Jon" />
-          </div>
-          <x-form-error name="first_name" />
-          <div>
-            <x-form-label for="first_name" ></x-form-label>
-            <x-form-input id="name" name="last_name" type="text" required autofocus  placeholder="Doe" />
-          </div>
-           <x-form-error name="last_name" />
+<x-layout>
+  <section class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 py-16">
+      <div class="w-full max-w-3xl bg-white dark:bg-gray-800 p-10 rounded-2xl shadow-xl">
+          <h2 class="text-3xl font-extrabold text-center text-gray-900 dark:text-white">
+              Create an Account
+          </h2>
+          <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
+              Sign up to get started with <span class="font-semibold text-indigo-600">WealthTrack</span>
+          </p>
 
-          <!-- Email Field -->
-          <div class="mt-4">
-            <x-form-label for="email"></x-form-label>
-            <x-form-input id="email" name="email" type="email"  placeholder="Email address"  />
-          </div>
-           <x-form-error name="email" />
+          {{-- Register Form --}}
+          <form method="POST" action="{{ route('register') }}" class="mt-10 space-y-6">
+              @csrf
 
-          <!-- Password Field -->
-          <div class="mt-4">
-            <x-form-label for="password" ></x-form-label>
-            <x-form-input id="password" name="password" type="password" required  placeholder="Password" />
-          </div>
-          <x-form-error name="password" />
+              {{-- Grid for first half --}}
+              <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                      <x-form-label for="first_name" />
+                      <x-form-input id="first_name" name="first_name" type="text" required placeholder="Jon" />
+                      <x-form-error name="first_name" />
+                  </div>
+                  <div>
+                      <x-form-label for="last_name" />
+                      <x-form-input id="last_name" name="last_name" type="text" required placeholder="Doe" />
+                      <x-form-error name="last_name" />
+                  </div>
 
-          <!-- Confirm Password Field -->
-          <div class="mt-4">
-            <x-form-label for="password_confirmation" class="sr-only"></x-form-label>
-            <x-form-input id="password_confirmation" 
-              name="password_confirmation" type="password" 
-              required placeholder="Confirm Password" />
-          </div>
-        </div>
-        <x-form-error name="password_confirmation" />
-        
-        <div>
-          <button type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-sm font-medium">
-            Register
-          </button>
-        </div>
-      </form>
-      <p class="mt-6 text-center text-sm text-gray-600">
-        Already have an account? 
-        <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
-          Sign in
-        </a>
-      </p>
-    </div>
-  </div>
-</body>
-</html>
+                  <div>
+                      <x-form-select
+                          id="location"
+                          name="location"
+                          label="Location"
+                          :options="[
+                              'ghana' => 'Ghana',
+                              'nigeria' => 'Nigeria',
+                              'ivory_coast' => 'Ivory Coast',
+                              'senegal' => 'Senegal',
+                              'togo' => 'Togo',
+                              'benin' => 'Benin',
+                              'liberia' => 'Liberia',
+                              'sierra_leone' => 'Sierra Leone',
+                              'burkina_faso' => 'Burkina Faso',
+                              'mali' => 'Mali',
+                              'guinea' => 'Guinea',
+                              'guinea_bissau' => 'Guinea-Bissau',
+                              'gambia' => 'The Gambia',
+                              'cape_verde' => 'Cape Verde',
+                              'niger' => 'Niger'
+                          ]"
+                          required
+                          :error="$errors->first('location')"
+                          :selected="old('location')"
+                      />
+                  </div>
+                  <div>
+                      <x-form-label for="phone" />
+                      <x-form-input id="phone" name="phone" type="tel" required placeholder="+233 050 673 4362" />
+                      <x-form-error name="phone" />
+                  </div>
+              </div>
+
+              {{-- Single column for email/passwords --}}
+              <div>
+                  <x-form-label for="email" />
+                  <x-form-input id="email" name="email" type="email" required placeholder="your@email.com" />
+                  <x-form-error name="email" />
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                      <x-form-label for="password" />
+                      <x-form-input id="password" name="password" type="password" required placeholder="Password" />
+                      <x-form-error name="password" />
+                  </div>
+                  <div>
+                      <x-form-label for="password_confirmation" />
+                      <x-form-input id="password_confirmation" name="password_confirmation" type="password" required placeholder="Confirm Password" />
+                      <x-form-error name="password_confirmation" />
+                  </div>
+              </div>
+
+              {{-- Submit --}}
+              <div>
+                  <button type="submit"
+                      class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-md shadow transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Register
+                  </button>
+              </div>
+          </form>
+
+          {{-- Link to login --}}
+          <p class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+              Already have an account?
+              <a href="{{ route('login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                  Sign in
+              </a>
+          </p>
+      </div>
+  </section>
+</x-layout>
+
+@push('scripts')
+<script src="{{ asset('js/country-phone.js') }}"></script>
+@endpush
